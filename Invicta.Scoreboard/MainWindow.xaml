@@ -28,7 +28,7 @@
             <!--<Label Content="00" Grid.Row="0" Grid.Column="0" Background="Black" Foreground="White" FontFamily="Verdana" FontSize="72" FontWeight="Bold" VerticalContentAlignment="Center" HorizontalContentAlignment="Right"/>
             <Label Content=":" Grid.Row="0" Grid.Column="1" Background="Black" Foreground="White" FontFamily="Verdana" FontSize="72" FontWeight="Bold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0"/>
             <Label Content="00" Grid.Row="0" Grid.Column="2" Background="Black" Foreground="White" FontFamily="Verdana" FontSize="72" FontWeight="Bold" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"/>-->
-            <Label Name="lblTime" Content="00:00" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Background="Black" Foreground="White" FontFamily="Verdana" FontSize="72" FontWeight="Bold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" MouseLeftButtonDown="lblTime_MouseLeftButtonDown"/>
+            <Label Name="lblTime" Content="01:40" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Background="Black" Foreground="White" FontFamily="Verdana" FontSize="72" FontWeight="Bold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" MouseLeftButtonDown="lblTime_MouseLeftButtonDown"/>
         </Grid>
         <!--RIGHT-->
     </Grid>

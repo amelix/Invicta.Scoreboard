@@ -99,9 +99,22 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="Style\Verdana\Numeri_210919.pdn" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Style\Verdana\0.png" />
+    <Resource Include="Style\Verdana\1.png" />
+    <Resource Include="Style\Verdana\2.png" />
+    <Resource Include="Style\Verdana\3.png" />
+    <Resource Include="Style\Verdana\4.png" />
+    <Resource Include="Style\Verdana\5.png" />
+    <Resource Include="Style\Verdana\6.png" />
+    <Resource Include="Style\Verdana\7.png" />
+    <Resource Include="Style\Verdana\8.png" />
+    <Resource Include="Style\Verdana\9.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Style\" />

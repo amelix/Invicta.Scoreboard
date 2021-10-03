@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Invicta.Scoreboard"
         mc:Ignorable="d"
         Title="Invicta" Height="600" Width="800" SizeChanged="Window_SizeChanged">
-    <Grid>
+    <Grid Background="Black">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.25*"/>
             <ColumnDefinition Width="0.50*"/>
@@ -28,7 +28,8 @@
             <!--<Label Content="00" Grid.Row="0" Grid.Column="0" Background="Black" Foreground="White" FontFamily="Verdana" FontSize="72" FontWeight="Bold" VerticalContentAlignment="Center" HorizontalContentAlignment="Right"/>
             <Label Content=":" Grid.Row="0" Grid.Column="1" Background="Black" Foreground="White" FontFamily="Verdana" FontSize="72" FontWeight="Bold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0"/>
             <Label Content="00" Grid.Row="0" Grid.Column="2" Background="Black" Foreground="White" FontFamily="Verdana" FontSize="72" FontWeight="Bold" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"/>-->
-            <Label Name="lblTime" Content="01:40" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Background="Black" Foreground="White" FontFamily="Verdana" FontSize="72" FontWeight="Bold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+            <Label Name="lblTime" Content="01:40" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Background="Black" Foreground="White" FontFamily="Verdana" FontSize="72" FontWeight="Bold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" MouseLeftButtonDown="lblTime_MouseLeftButtonDown"/>
+            <Image x:Name="imgHH2" Height="Auto" Width="Auto" Grid.Row="2" Grid.Column="0" Source="Style\Verdana\0.png" Stretch="Fill"/>
         </Grid>
         <!--RIGHT-->
     </Grid>

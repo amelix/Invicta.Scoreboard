@@ -1,0 +1,17 @@
+﻿<Window x:Class="Invicta.Scoreboard.RisultatoGrande"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Invicta.Scoreboard"
+        mc:Ignorable="d"
+        Title="RisultatoGrande" Height="366" Width="427">
+    <Window.Background>
+        <SolidColorBrush Opacity="0.0" Color="Black"/>
+    </Window.Background>
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="/Style/Risultato_Grande.png" />
+        </Grid.Background>
+    </Grid>
+</Window>

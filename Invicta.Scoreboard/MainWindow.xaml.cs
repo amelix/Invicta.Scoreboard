@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Invicta.Scoreboard.Code;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,7 +24,7 @@ namespace Invicta.Scoreboard
     {
         System.Windows.Threading.DispatcherTimer dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
         int i = 0;
-
+        CowntdownHelper cowntdownHelper;
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
             i++;
@@ -44,15 +45,40 @@ namespace Invicta.Scoreboard
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
             dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 500);
             dispatcherTimer.Start();
+
+            cowntdownHelper = new CowntdownHelper();
+            cowntdownHelper.Start(1, 5, 10);
+            cowntdownHelper.TimerTick += CowntdownHelper_TimerTick;
+            var w = new TimerWindow();
+            w.CowntdownHelper = cowntdownHelper;
+            w.Show();
         }
+
+        private void CowntdownHelper_TimerTick(object sender, CowntdownHelperEventArgs e)
+        {
+            if (e.Minutes > 0)
+                lblTime.Content = $"{e.Minutes:00}:{e.Seconds:00}";
+            else
+            {
+                if (e.Minutes == 0 && e.Seconds == 0 && e.Milliseconds == 0)
+                {
+                    lblTime.Content = "";
+                }
+                else
+                {
+                    lblTime.Content = $"{e.Seconds:00}:{e.Milliseconds / 100:0}";
+                }
+            }
+        }
+
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            
+
         }
 
         private void lblTime_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            MessageBox.Show("Prova");
+            //MessageBox.Show("Prova");
             //for (var i = 0; i < 10; i++)
             //{
             //    BitmapImage image = new BitmapImage();
@@ -63,6 +89,10 @@ namespace Invicta.Scoreboard
             //    imgHH2.Source = image; //Image.from ImageSource.( $"Style\\Verdana\\{i}.png";
             //    Thread.Sleep(1000);
             //}
+            if (cowntdownHelper.Running)
+                cowntdownHelper.Stop();
+            else
+                cowntdownHelper.Start(cowntdownHelper.Minutes, cowntdownHelper.Seconds, cowntdownHelper.Milliseconds);
         }
     }
 }

@@ -1,0 +1,63 @@
+﻿<Window x:Class="Invicta.Scoreboard.TimerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Invicta.Scoreboard"
+        mc:Ignorable="d"
+        Title="Invicta Timer" Height="136" Width="854" ResizeMode="NoResize">
+    <Window.Background>
+        <SolidColorBrush Opacity="1.0" Color="Magenta"/>
+    </Window.Background>
+    <Grid Margin="0">
+        <Grid.Background>
+            <ImageBrush ImageSource="/Style/Risultato_Piccolo.png" />
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="45"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="80"/>
+            <ColumnDefinition Width="290"/>
+            <ColumnDefinition Width="42"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="42"/>
+            <ColumnDefinition Width="290"/>
+            <ColumnDefinition Width="80"/>
+        </Grid.ColumnDefinitions>
+
+        <Label Name="lblTimeUP" 
+            Content="99" Grid.Row="0" Grid.Column="2" 
+            Foreground="White" FontFamily="Verdana" 
+            FontSize="24" Margin="0" 
+            VerticalContentAlignment="Center" HorizontalContentAlignment="Right"/>
+
+        <Label Name="lblTimeDB" 
+            Content=":" Grid.Row="0" Grid.Column="3" 
+            Foreground="White" FontFamily="Verdana" 
+            FontSize="20" Margin="0" 
+            VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+
+        <Label Name="lblTimeDOWN" 
+            Content="88" Grid.Row="0" Grid.Column="4" 
+            Foreground="White" FontFamily="Verdana" 
+            FontSize="24" Margin="0" 
+            VerticalContentAlignment="Center" HorizontalContentAlignment="Left"/>
+
+        <Label Name="lblTime" Content="01:40" Grid.Row="0" Grid.Column="5" Foreground="White" FontFamily="Verdana" FontSize="24" FontWeight="Bold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+
+
+        <Label Name="lblScoreUP" 
+            Content="0" Grid.Row="1" Grid.Column="2" 
+            Foreground="White" FontFamily="Verdana" 
+            FontSize="26" Margin="0" 
+            VerticalContentAlignment="Center" HorizontalContentAlignment="Right"/>
+
+        <Label Name="lblScoreDOWN" 
+            Content="0" Grid.Row="1" Grid.Column="4" 
+            Foreground="White" FontFamily="Verdana" 
+            FontSize="26" Margin="0" 
+            VerticalContentAlignment="Center" HorizontalContentAlignment="Left"/>
+    </Grid>
+</Window>

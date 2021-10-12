@@ -41,9 +41,12 @@ namespace Invicta.Scoreboard
         {
 
             if (cowntdownHelper.Running)
+            {
+                lblTimeUP.Foreground = new SolidColorBrush(Colors.White);
+                lblTimeDB.Foreground = new SolidColorBrush(Colors.White);
+                lblTimeDOWN.Foreground = new SolidColorBrush(Colors.White);
                 if (e.Minutes == 0 && e.Seconds == 0 && e.Milliseconds == 0)
                 {
-                    lblTime.Content = "";
                     lblTimeDB.Content = ":";
                 }
                 else
@@ -55,18 +58,24 @@ namespace Invicta.Scoreboard
 
                     if (e.Minutes > 0)
                     {
-                        lblTime.Content = $"{e.Minutes:00}:{e.Seconds:00}";
-
                         lblTimeUP.Content = $"{e.Minutes:00}";
                         lblTimeDOWN.Content = $"{e.Seconds:00}";
                     }
                     else
                     {
-                        lblTime.Content = $"{e.Seconds:00}:{e.Milliseconds / 100:0}";
                         lblTimeUP.Content = $"{e.Seconds:00}";
                         lblTimeDOWN.Content = $"{e.Milliseconds / 100:0}";
                     }
                 }
+            }
+            else
+            {
+                lblTimeDB.Content = ":";
+                lblTimeUP.Foreground = new SolidColorBrush(Colors.Red);
+                lblTimeDB.Foreground = new SolidColorBrush(Colors.Red);
+                lblTimeDOWN.Foreground = new SolidColorBrush(Colors.Red);
+
+            }
 
             round++;
         }

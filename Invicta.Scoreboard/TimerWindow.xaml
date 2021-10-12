@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Invicta.Scoreboard"
         mc:Ignorable="d"
-        Title="Invicta Timer" Height="136" Width="854" ResizeMode="NoResize">
+        Title="Invicta Timer" Height="132" Width="427" ResizeMode="NoResize">
     <Window.Background>
         <SolidColorBrush Opacity="1.0" Color="Magenta"/>
     </Window.Background>
@@ -18,13 +18,13 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="76"/>
             <ColumnDefinition Width="80"/>
-            <ColumnDefinition Width="290"/>
             <ColumnDefinition Width="42"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="42"/>
-            <ColumnDefinition Width="290"/>
             <ColumnDefinition Width="80"/>
+            <ColumnDefinition Width="76"/>
         </Grid.ColumnDefinitions>
 
         <Label Name="lblTimeUP" 
@@ -45,8 +45,14 @@
             FontSize="24" Margin="0" 
             VerticalContentAlignment="Center" HorizontalContentAlignment="Left"/>
 
-        <Label Name="lblTime" Content="01:40" Grid.Row="0" Grid.Column="5" Foreground="White" FontFamily="Verdana" FontSize="24" FontWeight="Bold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+        <!--<Label Name="lblTime" Content="01:40" Grid.Row="0" Grid.Column="5" Foreground="White" FontFamily="Verdana" FontSize="24" FontWeight="Bold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>-->
 
+
+        <Label Name="lblTeamLeft" 
+            Content="RMA" Grid.Row="1" Grid.Column="1" 
+            Foreground="White" FontFamily="Verdana" 
+            FontSize="26" Margin="0" 
+            VerticalContentAlignment="Center" HorizontalContentAlignment="Right"/>
 
         <Label Name="lblScoreUP" 
             Content="0" Grid.Row="1" Grid.Column="2" 
@@ -56,6 +62,12 @@
 
         <Label Name="lblScoreDOWN" 
             Content="0" Grid.Row="1" Grid.Column="4" 
+            Foreground="White" FontFamily="Verdana" 
+            FontSize="26" Margin="0" 
+            VerticalContentAlignment="Center" HorizontalContentAlignment="Left"/>
+
+        <Label Name="lblTeamRight" 
+            Content="INV" Grid.Row="1" Grid.Column="5" 
             Foreground="White" FontFamily="Verdana" 
             FontSize="26" Margin="0" 
             VerticalContentAlignment="Center" HorizontalContentAlignment="Left"/>

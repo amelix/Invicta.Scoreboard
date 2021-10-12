@@ -47,11 +47,16 @@ namespace Invicta.Scoreboard
             dispatcherTimer.Start();
 
             cowntdownHelper = new CowntdownHelper();
-            cowntdownHelper.Start(1, 5, 10);
+            cowntdownHelper.Start(10, 0, 0);
             cowntdownHelper.TimerTick += CowntdownHelper_TimerTick;
-            var w = new TimerWindow();
-            w.CowntdownHelper = cowntdownHelper;
-            w.Show();
+
+            var timerWindow = new TimerWindow();
+            timerWindow.CowntdownHelper = cowntdownHelper;
+            timerWindow.Show();
+
+            var rg = new RisultatoGrande();
+            rg.CowntdownHelper = cowntdownHelper;
+            rg.Show();
         }
 
         private void CowntdownHelper_TimerTick(object sender, CowntdownHelperEventArgs e)

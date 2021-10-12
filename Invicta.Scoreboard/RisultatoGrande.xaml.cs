@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Invicta.Scoreboard.Code;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,66 @@ namespace Invicta.Scoreboard
     /// </summary>
     public partial class RisultatoGrande : Window
     {
+        private CowntdownHelper cowntdownHelper;
+
+        public CowntdownHelper CowntdownHelper
+        {
+            private get
+            {
+                return cowntdownHelper;
+            }
+            set
+            {
+                cowntdownHelper = value;
+                cowntdownHelper.TimerTick += CowntdownHelper_TimerTick;
+            }
+        }
+
+        int round = 0;
+
+        private void CowntdownHelper_TimerTick(object sender, CowntdownHelperEventArgs e)
+        {
+
+            if (cowntdownHelper.Running)
+            {
+                lblTimeUP.Foreground = new SolidColorBrush(Colors.White);
+                lblTimeDB.Foreground = new SolidColorBrush(Colors.White);
+                lblTimeDOWN.Foreground = new SolidColorBrush(Colors.White);
+                if (e.Minutes == 0 && e.Seconds == 0 && e.Milliseconds == 0)
+                {
+                    lblTimeDB.Content = ":";
+                }
+                else
+                {
+                    if (round % 10 > 4)
+                        lblTimeDB.Content = ":";
+                    else
+                        lblTimeDB.Content = "";
+
+                    if (e.Minutes > 0)
+                    {
+                        lblTimeUP.Content = $"{e.Minutes:00}";
+                        lblTimeDOWN.Content = $"{e.Seconds:00}";
+                    }
+                    else
+                    {
+                        lblTimeUP.Content = $"{e.Seconds:00}";
+                        lblTimeDOWN.Content = $"{e.Milliseconds / 100:0}";
+                    }
+                }
+            }
+            else
+            {
+                lblTimeDB.Content = ":";
+                lblTimeUP.Foreground = new SolidColorBrush(Colors.Red);
+                lblTimeDB.Foreground = new SolidColorBrush(Colors.Red);
+                lblTimeDOWN.Foreground = new SolidColorBrush(Colors.Red);
+
+            }
+
+            round++;
+        }
+
         public RisultatoGrande()
         {
             InitializeComponent();

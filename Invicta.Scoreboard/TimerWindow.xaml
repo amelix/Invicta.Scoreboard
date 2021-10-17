@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Invicta.Scoreboard"
         mc:Ignorable="d"
-        Title="Invicta Timer" Height="132" Width="427" ResizeMode="NoResize">
+        Title="Invicta Risultato Piccolo" Height="132" Width="427" ResizeMode="NoResize">
     <Window.Background>
         <SolidColorBrush Opacity="1.0" Color="Magenta"/>
     </Window.Background>

@@ -10,7 +10,7 @@ using System.Windows.Threading;
 
 namespace Invicta.Scoreboard.Code
 {
-    public class CowntdownHelper
+    public class CountdownHelper
     {
         private DateTime _endTime;
         private TimeSpan _timeLeft;
@@ -21,7 +21,7 @@ namespace Invicta.Scoreboard.Code
         public int Seconds { get; private set; }
         public int Milliseconds { get; private set; }
 
-        public CowntdownHelper()
+        public CountdownHelper()
         {
             var tick = new TimeSpan(0, 0, 0, 0, 100);
             _timer = new DispatcherTimer(tick, DispatcherPriority.Normal, OnTimerTick, Application.Current.Dispatcher);
@@ -33,7 +33,8 @@ namespace Invicta.Scoreboard.Code
 
         public void Start(int minutes, int seconds, int milliseconds = 0)
         {
-            _endTime = DateTime.Now.AddMinutes(minutes).AddSeconds(seconds).AddMilliseconds(milliseconds);
+            SetTime(minutes, seconds, milliseconds);
+            //_endTime = DateTime.Now.AddMinutes(minutes).AddSeconds(seconds).AddMilliseconds(milliseconds);
 
             //_timer.Start();
             Running = true;
@@ -71,6 +72,7 @@ namespace Invicta.Scoreboard.Code
                     Milliseconds = 0;
                 }
 
+            tickE.Running = Running;
             tickE.Minutes = Minutes;
             tickE.Seconds = Seconds;
             tickE.Milliseconds = Milliseconds;
@@ -109,12 +111,16 @@ namespace Invicta.Scoreboard.Code
 
         public void SetTime(int minutes, int seconds, int milliseconds = 0)
         {
+            Minutes = minutes;
+            Seconds = seconds;
+            Milliseconds = milliseconds;
             _endTime = DateTime.Now.AddMinutes(minutes).AddSeconds(seconds).AddMilliseconds(milliseconds);
         }
     }
 
     public class CowntdownHelperEventArgs : EventArgs
     {
+        public bool Running { get; set; }
         public int Minutes { get; set; }
         public int Seconds { get; set; }
         public int Milliseconds { get; set; }

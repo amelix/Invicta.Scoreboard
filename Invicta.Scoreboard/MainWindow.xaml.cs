@@ -24,7 +24,7 @@ namespace Invicta.Scoreboard
     {
         System.Windows.Threading.DispatcherTimer dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
         int i = 0;
-        CowntdownHelper cowntdownHelper;
+        CountdownHelper cowntdownHelper;
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
             i++;
@@ -35,9 +35,10 @@ namespace Invicta.Scoreboard
             image.UriSource = new Uri($"pack://application:,,,/Style/Verdana/{i}.png");
             image.EndInit();
 
-            imgHH2.Source = image; //Image.from ImageSource.( $"Style\\Verdana\\{i}.png";
+            //imgHH2.Source = image; //Image.from ImageSource.( $"Style\\Verdana\\{i}.png";
             //Thread.Sleep(1000);
         }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -46,7 +47,7 @@ namespace Invicta.Scoreboard
             dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 500);
             dispatcherTimer.Start();
 
-            cowntdownHelper = new CowntdownHelper();
+            cowntdownHelper = new CountdownHelper();
             cowntdownHelper.Start(10, 0, 0);
             cowntdownHelper.TimerTick += CowntdownHelper_TimerTick;
 
@@ -62,16 +63,42 @@ namespace Invicta.Scoreboard
         private void CowntdownHelper_TimerTick(object sender, CowntdownHelperEventArgs e)
         {
             if (e.Minutes > 0)
+            {
                 lblTime.Content = $"{e.Minutes:00}:{e.Seconds:00}";
+
+                if (e.Running)
+                {
+                    txtMinutes.Text = e.Minutes.ToString();
+                    txtSeconds.Text = e.Seconds.ToString();
+                    txtMilliseconds.Text = "0";
+                }
+            }
             else
             {
                 if (e.Minutes == 0 && e.Seconds == 0 && e.Milliseconds == 0)
                 {
-                    lblTime.Content = "";
+                    if (lblTime.Content.ToString() != "")
+                    {
+                        lblTime.Content = "";
+
+                        if (e.Running)
+                        {
+                            txtMinutes.Text = "0";
+                            txtSeconds.Text = "0";
+                            txtMilliseconds.Text = "0";
+                        }
+                    }
                 }
                 else
                 {
                     lblTime.Content = $"{e.Seconds:00}:{e.Milliseconds / 100:0}";
+
+                    if (e.Running)
+                    {
+                        txtMinutes.Text = "0";
+                        txtSeconds.Text = e.Seconds.ToString();
+                        txtMilliseconds.Text = e.Milliseconds.ToString();
+                    }
                 }
             }
         }
@@ -98,6 +125,14 @@ namespace Invicta.Scoreboard
                 cowntdownHelper.Stop();
             else
                 cowntdownHelper.Start(cowntdownHelper.Minutes, cowntdownHelper.Seconds, cowntdownHelper.Milliseconds);
+        }
+
+        private void btnAlign_Click(object sender, RoutedEventArgs e)
+        {
+            cowntdownHelper.SetTime(
+                Convert.ToInt32(txtMinutes.Text), 
+                Convert.ToInt32(txtSeconds.Text), 
+                Convert.ToInt32(txtMilliseconds.Text));
         }
     }
 }

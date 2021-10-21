@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Invicta.Scoreboard"
         mc:Ignorable="d"
-        Title="Invicta Risultato Grande" Height="366" Width="427">
+        Title="Invicta Risultato Grande" Height="366" Width="427" 
+        ResizeMode="NoResize" 
+        WindowStartupLocation="Manual" Top="150" Left="0">
     <Window.Background>
         <SolidColorBrush Opacity="1.0" Color="Magenta"/>
     </Window.Background>
@@ -59,19 +61,19 @@
 
         <Grid Grid.Row="1" Grid.Column="2" Background="White" Width="5" Height="25" HorizontalAlignment="Left">
             <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="0.5*"/>
             </Grid.RowDefinitions>
-            <TextBlock x:Name="colorHome1" Grid.Row="0" Background="Red" Width="Auto" />
+            <TextBlock x:Name="colorHome1" Grid.Row="0" Background="Yellow" Width="Auto" />
             <TextBlock x:Name="colorHome2" Grid.Row="1" Background="Blue" Width="Auto" />
         </Grid>
         <Grid Grid.Row="1" Grid.Column="4" Background="White" Width="5" Height="25" HorizontalAlignment="Right">
             <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="0.5*"/>
             </Grid.RowDefinitions>
-            <TextBlock x:Name="colorAway1" Grid.Row="0" Background="Green" Width="Auto" />
-            <TextBlock x:Name="colorAway2" Grid.Row="1" Background="White" Width="Auto" />
+            <TextBlock x:Name="colorAway1" Grid.Row="0" Background="Yellow" Width="Auto" />
+            <TextBlock x:Name="colorAway2" Grid.Row="1" Background="Red" Width="Auto" />
         </Grid>
 
         <TextBlock x:Name="lblHomeName" Grid.Row="1" Grid.Column="1" Text="Home" Foreground="WhiteSmoke" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="18"/>

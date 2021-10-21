@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Invicta.Scoreboard"
         mc:Ignorable="d"
-        Title="Invicta Risultato Piccolo" Height="132" Width="427" ResizeMode="NoResize">
+        Title="Invicta Risultato Piccolo" Height="132" Width="427" 
+        ResizeMode="NoResize" 
+        WindowStartupLocation="Manual" Top="0" Left="0">
     <Window.Background>
         <SolidColorBrush Opacity="1.0" Color="Magenta"/>
     </Window.Background>
@@ -18,58 +20,73 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="76"/>
-            <ColumnDefinition Width="80"/>
+            <ColumnDefinition Width="71"/>
+            <ColumnDefinition Width="89"/>
             <ColumnDefinition Width="42"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="42"/>
-            <ColumnDefinition Width="80"/>
-            <ColumnDefinition Width="76"/>
+            <ColumnDefinition Width="89"/>
+            <ColumnDefinition Width="71"/>
         </Grid.ColumnDefinitions>
 
-        <Label Name="lblTimeUP" 
-            Content="99" Grid.Row="0" Grid.Column="2" 
+        <TextBlock Name="lblTimeUP" 
+            Text="99" Grid.Row="0" Grid.Column="2" 
             Foreground="White" FontFamily="Verdana" 
             FontSize="24" Margin="0" 
-            VerticalContentAlignment="Center" HorizontalContentAlignment="Right"/>
+            VerticalAlignment="Center" HorizontalAlignment="Right"/>
 
-        <Label Name="lblTimeDB" 
-            Content=":" Grid.Row="0" Grid.Column="3" 
+        <TextBlock Name="lblTimeDB" 
+            Text=":" Grid.Row="0" Grid.Column="3" 
             Foreground="White" FontFamily="Verdana" 
             FontSize="20" Margin="0" 
-            VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+            VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
-        <Label Name="lblTimeDOWN" 
-            Content="88" Grid.Row="0" Grid.Column="4" 
+        <TextBlock Name="lblTimeDOWN" 
+            Text="88" Grid.Row="0" Grid.Column="4" 
             Foreground="White" FontFamily="Verdana" 
             FontSize="24" Margin="0" 
-            VerticalContentAlignment="Center" HorizontalContentAlignment="Left"/>
+            VerticalAlignment="Center" HorizontalAlignment="Left"/>
 
-        <!--<Label Name="lblTime" Content="01:40" Grid.Row="0" Grid.Column="5" Foreground="White" FontFamily="Verdana" FontSize="24" FontWeight="Bold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>-->
-
-
-        <Label Name="lblTeamLeft" 
-            Content="RMA" Grid.Row="1" Grid.Column="1" 
+        <TextBlock Name="lblHomeName" 
+            Text="RMA" Grid.Row="1" Grid.Column="1" 
             Foreground="White" FontFamily="Verdana" 
             FontSize="26" Margin="0" 
-            VerticalContentAlignment="Center" HorizontalContentAlignment="Right"/>
+            VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
-        <Label Name="lblScoreUP" 
-            Content="0" Grid.Row="1" Grid.Column="2" 
+        <TextBlock Name="lblHomeScore" 
+            Text="0" Grid.Row="1" Grid.Column="2" 
             Foreground="White" FontFamily="Verdana" 
             FontSize="26" Margin="0" 
-            VerticalContentAlignment="Center" HorizontalContentAlignment="Right"/>
+            VerticalAlignment="Center" HorizontalAlignment="Right"/>
 
-        <Label Name="lblScoreDOWN" 
-            Content="0" Grid.Row="1" Grid.Column="4" 
+        <TextBlock Name="lblAwayScore" 
+            Text="0" Grid.Row="1" Grid.Column="4" 
             Foreground="White" FontFamily="Verdana" 
             FontSize="26" Margin="0" 
-            VerticalContentAlignment="Center" HorizontalContentAlignment="Left"/>
+            VerticalAlignment="Center" HorizontalAlignment="Left"/>
 
-        <Label Name="lblTeamRight" 
-            Content="INV" Grid.Row="1" Grid.Column="5" 
+        <TextBlock Name="lblAwayName" 
+            Text="INV" Grid.Row="1" Grid.Column="5" 
             Foreground="White" FontFamily="Verdana" 
             FontSize="26" Margin="0" 
-            VerticalContentAlignment="Center" HorizontalContentAlignment="Left"/>
+            VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+        <Grid Grid.Row="1" Grid.Column="2" Background="White" Width="5" Height="40" HorizontalAlignment="Left">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="0.5*"/>
+            </Grid.RowDefinitions>
+            <TextBlock x:Name="colorHome1" Grid.Row="0" Background="Yellow" Width="Auto" />
+            <TextBlock x:Name="colorHome2" Grid.Row="1" Background="Blue" Width="Auto" />
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="4" Background="White" Width="5" Height="40" HorizontalAlignment="Right">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="0.5*"/>
+            </Grid.RowDefinitions>
+            <TextBlock x:Name="colorAway1" Grid.Row="0" Background="Yellow" Width="Auto" />
+            <TextBlock x:Name="colorAway2" Grid.Row="1" Background="Red" Width="Auto" />
+        </Grid>
+
     </Grid>
 </Window>

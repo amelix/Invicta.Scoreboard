@@ -41,6 +41,10 @@
             <ColumnDefinition Width="46"/>
         </Grid.ColumnDefinitions>
 
+
+        <Image x:Name="imgHomePowerPlay" Source="RedDot.png" Grid.Row="0" Grid.Column="1" Height="10" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+        <Image x:Name="imgAwayPowerPlay" Source="RedDot.png" Grid.Row="0" Grid.Column="5" Height="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+
         <TextBlock Name="lblTimeUP" 
             Text="99" Grid.Row="0" Grid.Column="2" 
             Foreground="White" FontFamily="Verdana" 
@@ -64,7 +68,7 @@
                 <RowDefinition Height="0.5*"/>
                 <RowDefinition Height="0.5*"/>
             </Grid.RowDefinitions>
-            <TextBlock x:Name="colorHome1" Grid.Row="0" Background="Yellow" Width="Auto" />
+            <TextBlock x:Name="colorHome1" Grid.Row="0" Background="White" Width="Auto" />
             <TextBlock x:Name="colorHome2" Grid.Row="1" Background="Blue" Width="Auto" />
         </Grid>
         <Grid Grid.Row="1" Grid.Column="4" Background="White" Width="5" Height="25" HorizontalAlignment="Right">
@@ -72,15 +76,17 @@
                 <RowDefinition Height="0.5*"/>
                 <RowDefinition Height="0.5*"/>
             </Grid.RowDefinitions>
-            <TextBlock x:Name="colorAway1" Grid.Row="0" Background="Yellow" Width="Auto" />
-            <TextBlock x:Name="colorAway2" Grid.Row="1" Background="Red" Width="Auto" />
+            <TextBlock x:Name="colorAway1" Grid.Row="0" Background="Blue" Width="Auto" />
+            <TextBlock x:Name="colorAway2" Grid.Row="1" Background="Blue" Width="Auto" />
         </Grid>
 
-        <TextBlock x:Name="lblHomeName" Grid.Row="1" Grid.Column="1" Text="Home" Foreground="WhiteSmoke" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="18"/>
-        <TextBlock x:Name="lblAwayName" Grid.Row="1" Grid.Column="5" Text="Away" Foreground="WhiteSmoke" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="18"/>
+        <!--<TextBlock x:Name="lblHomeName" Grid.Row="1" Grid.Column="1" Text="ASD US Invicta" Foreground="WhiteSmoke" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14"/>-->
+        <TextBlock x:Name="lblHomeName" Grid.Row="1" Grid.Column="1" Text="Arancioni" Foreground="WhiteSmoke" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14"/>
+        <!--<TextBlock x:Name="lblAwayName" Grid.Row="1" Grid.Column="5" Text="Tecnoalt" Foreground="WhiteSmoke" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14"/>-->
+        <TextBlock x:Name="lblAwayName" Grid.Row="1" Grid.Column="5" Text="Bianchi" Foreground="WhiteSmoke" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14"/>
     
-        <TextBlock x:Name="lblHomeScore" Grid.Row="1" Grid.Column="2" Text="0" Foreground="WhiteSmoke" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="20"/>
-        <TextBlock x:Name="lblAwayScore" Grid.Row="1" Grid.Column="4" Text="0" Foreground="WhiteSmoke" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="20"/>
+        <TextBlock x:Name="lblHomeScore" Grid.Row="1" Grid.Column="2" Text="0" Foreground="WhiteSmoke" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="20" Margin="4"/>
+        <TextBlock x:Name="lblAwayScore" Grid.Row="1" Grid.Column="4" Text="0" Foreground="WhiteSmoke" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="20" Margin="4"/>
 
         <TextBlock x:Name="lblHomeScorer1" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Text="" Foreground="WhiteSmoke" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="16"  Margin="0"/>
         <TextBlock x:Name="lblHomeScorer2" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Text="" Foreground="WhiteSmoke" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="16"  Margin="0"/>
@@ -106,5 +112,7 @@
         <TextBlock x:Name="lblAwayScorer9" Grid.Row="10" Grid.Column="4" Grid.ColumnSpan="2" Text="" Foreground="WhiteSmoke" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="16"  Margin="0"/>
         <TextBlock x:Name="lblAwayScorer10" Grid.Row="11" Grid.Column="4" Grid.ColumnSpan="2" Text="" Foreground="WhiteSmoke" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="16"  Margin="0"/>
         <TextBlock x:Name="lblAwayScorer11" Grid.Row="12" Grid.Column="4" Grid.ColumnSpan="2" Text="" Foreground="WhiteSmoke" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="16"  Margin="0"/>
+        <TextBlock x:Name="lblHomeDesc" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="11" FontSize="14"  TextWrapping="Wrap" Foreground="White" />
+        <TextBlock x:Name="lblAwayDesc" Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="2" Grid.RowSpan="11" FontSize="14"  TextWrapping="Wrap" Foreground="White"/>
     </Grid>
 </Window>

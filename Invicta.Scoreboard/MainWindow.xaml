@@ -24,22 +24,15 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <TextBox x:Name="txtMinutes" Grid.Row="0" Grid.Column="1" TextAlignment="Center" VerticalContentAlignment="Center" FontSize="24" />
-        <TextBox x:Name="txtSeconds" Grid.Row="0" Grid.Column="2" TextAlignment="Center" VerticalContentAlignment="Center" FontSize="24" />
-        <TextBox x:Name="txtMilliseconds" Grid.Row="0" Grid.Column="3" TextAlignment="Center" VerticalContentAlignment="Center" FontSize="24" />
+        <TextBox x:Name="txtMinutes" Text="25" Grid.Row="0" Grid.Column="1" TextAlignment="Center" VerticalContentAlignment="Center" FontSize="24" />
+        <TextBox x:Name="txtSeconds" Text="0" Grid.Row="0" Grid.Column="2" TextAlignment="Center" VerticalContentAlignment="Center" FontSize="24" />
+        <TextBox x:Name="txtMilliseconds" Text="0" Grid.Row="0" Grid.Column="3" TextAlignment="Center" VerticalContentAlignment="Center" FontSize="24" />
         <Button x:Name="btnAlign" Grid.Row="0" Grid.Column="4" Content="==>" Click="btnAlign_Click" FontSize="24"/>
         <Grid Grid.Row="0" Grid.Column="5">
             <Border BorderThickness="1" BorderBrush="White">
@@ -47,5 +40,19 @@
                        MouseLeftButtonDown="lblTime_MouseLeftButtonDown"/>
             </Border>
         </Grid>
+
+        <TextBlock Text="Home" Grid.Row="1" Grid.Column="0" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="24"/>
+        <TextBox x:Name="txtHomeShort" Text="MOD" Grid.Row="1" Grid.Column="1" TextAlignment="Center" VerticalContentAlignment="Center" FontSize="24" />
+        <TextBox x:Name="txtHomeLong" Text="ASD US Invicta" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" TextAlignment="Center" VerticalContentAlignment="Center" FontSize="24" />
+        <TextBox x:Name="txtHomeScore" Text="0" Grid.Row="1" Grid.Column="3" TextAlignment="Center" VerticalContentAlignment="Center" FontSize="24" />
+        <Button x:Name="btnAlignTeams" Grid.Row="1" Grid.Column="4" Content="&lt;=&gt;" Grid.RowSpan="2" Height="40" Click="btnAlignTeams_Click" FontSize="24"/>
+        <TextBox x:Name="txtAwayScore" Text="0" Grid.Row="1" Grid.Column="5" TextAlignment="Center" VerticalContentAlignment="Center" FontSize="24" />
+        <TextBox x:Name="txtAwayLong" Text="Tecnoalt" Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="3" TextAlignment="Center" VerticalContentAlignment="Center" FontSize="24" />
+        <TextBox x:Name="txtAwayShort" Text="CVS" Grid.Row="1" Grid.Column="7" TextAlignment="Center" VerticalContentAlignment="Center" FontSize="24" />
+        <TextBlock Text="Away" Grid.Row="1" Grid.Column="8" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="24"/>
+        <CheckBox Content="Power Play" x:Name="chkHomePowerPlay" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" VerticalContentAlignment="Center" Foreground="White" FontSize="24" Click="btnAlignTeams_Click"/>
+        <CheckBox Content="Power Play" x:Name="chkAwayPowerPlay" Grid.Row="3" Grid.Column="6" Grid.ColumnSpan="2" VerticalContentAlignment="Center" Foreground="White" FontSize="24" Click="btnAlignTeams_Click"/>
+        <TextBox x:Name="txtHomeDesc" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" TextWrapping="Wrap" AcceptsReturn="True"/>
+        <TextBox x:Name="txtAwayDesc" Grid.Row="4" Grid.Column="5" Grid.ColumnSpan="4"  TextWrapping="Wrap" AcceptsReturn="True"/>
     </Grid>
 </Window>

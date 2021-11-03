@@ -113,7 +113,7 @@ namespace Invicta.Scoreboard.Code
         {
             Minutes = minutes;
             Seconds = seconds;
-            Milliseconds = milliseconds;
+            Milliseconds = milliseconds > 0 ? milliseconds : milliseconds + 500;
             _endTime = DateTime.Now.AddMinutes(minutes).AddSeconds(seconds).AddMilliseconds(milliseconds);
         }
     }

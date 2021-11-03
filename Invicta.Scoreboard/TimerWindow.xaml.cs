@@ -20,6 +20,14 @@ namespace Invicta.Scoreboard
     /// </summary>
     public partial class TimerWindow : Window
     {
+        public int HomeScore { set { lblHomeScore.Text = value.ToString(); } }
+        public int AwayScore { set { lblAwayScore.Text = value.ToString(); } }
+        public string HomeName { set { lblHomeName.Text = value; } }
+        public string AwayName { set { lblAwayName.Text = value; } }
+
+        public bool HomePowerPlay { set { imgHomePowerPlay.Visibility = value ? Visibility.Visible : Visibility.Collapsed; } }
+        public bool AwayPowerPlay { set { imgAwayPowerPlay.Visibility = value ? Visibility.Visible : Visibility.Collapsed; } }
+
         private CountdownHelper cowntdownHelper;
 
         public CountdownHelper CowntdownHelper

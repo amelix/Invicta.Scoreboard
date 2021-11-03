@@ -22,42 +22,27 @@ namespace Invicta.Scoreboard
     /// </summary>
     public partial class MainWindow : Window
     {
-        System.Windows.Threading.DispatcherTimer dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
-        int i = 0;
+        RisultatoGrande risultatoGrande;
+        TimerWindow risultatoPiccolo;
         CountdownHelper cowntdownHelper;
-        private void dispatcherTimer_Tick(object sender, EventArgs e)
-        {
-            i++;
-            i = i % 10;
-
-            BitmapImage image = new BitmapImage();
-            image.BeginInit();
-            image.UriSource = new Uri($"pack://application:,,,/Style/Verdana/{i}.png");
-            image.EndInit();
-
-            //imgHH2.Source = image; //Image.from ImageSource.( $"Style\\Verdana\\{i}.png";
-            //Thread.Sleep(1000);
-        }
 
         public MainWindow()
         {
             InitializeComponent();
 
-            dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
-            dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 500);
-            dispatcherTimer.Start();
-
             cowntdownHelper = new CountdownHelper();
-            cowntdownHelper.Start(10, 0, 0);
+            //cowntdownHelper.Start(10, 0, 0);
             cowntdownHelper.TimerTick += CowntdownHelper_TimerTick;
 
-            var timerWindow = new TimerWindow();
-            timerWindow.CowntdownHelper = cowntdownHelper;
-            timerWindow.Show();
+            risultatoPiccolo = new TimerWindow();
+            risultatoPiccolo.CowntdownHelper = cowntdownHelper;
+            risultatoPiccolo.Show();
 
-            var rg = new RisultatoGrande();
-            rg.CowntdownHelper = cowntdownHelper;
-            rg.Show();
+            risultatoGrande = new RisultatoGrande();
+            risultatoGrande.CowntdownHelper = cowntdownHelper;
+            risultatoGrande.Show();
+
+            btnAlignTeams_Click(btnAlignTeams, new RoutedEventArgs());
         }
 
         private void CowntdownHelper_TimerTick(object sender, CowntdownHelperEventArgs e)
@@ -130,9 +115,31 @@ namespace Invicta.Scoreboard
         private void btnAlign_Click(object sender, RoutedEventArgs e)
         {
             cowntdownHelper.SetTime(
-                Convert.ToInt32(txtMinutes.Text), 
-                Convert.ToInt32(txtSeconds.Text), 
+                Convert.ToInt32(txtMinutes.Text),
+                Convert.ToInt32(txtSeconds.Text),
                 Convert.ToInt32(txtMilliseconds.Text));
+        }
+
+
+        private void btnAlignTeams_Click(object sender, RoutedEventArgs e)
+        {
+            risultatoGrande.HomeName = txtHomeLong.Text;
+            risultatoGrande.HomeScore = Convert.ToInt32(txtHomeScore.Text);
+            risultatoGrande.HomePowerPlay = chkHomePowerPlay.IsChecked.Value;
+            risultatoGrande.HomeDesc = txtHomeDesc.Text;
+
+            risultatoGrande.AwayScore = Convert.ToInt32(txtAwayScore.Text);
+            risultatoGrande.AwayName = txtAwayLong.Text;
+            risultatoGrande.AwayPowerPlay = chkAwayPowerPlay.IsChecked.Value;
+            risultatoGrande.AwayDesc = txtAwayDesc.Text;
+
+            risultatoPiccolo.HomeName = txtHomeShort.Text;
+            risultatoPiccolo.HomeScore = Convert.ToInt32(txtHomeScore.Text);
+            risultatoPiccolo.HomePowerPlay = chkHomePowerPlay.IsChecked.Value;
+
+            risultatoPiccolo.AwayScore = Convert.ToInt32(txtAwayScore.Text);
+            risultatoPiccolo.AwayName = txtAwayShort.Text;
+            risultatoPiccolo.AwayPowerPlay = chkAwayPowerPlay.IsChecked.Value;
         }
     }
 }

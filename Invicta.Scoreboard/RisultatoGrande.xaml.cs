@@ -34,6 +34,15 @@ namespace Invicta.Scoreboard
                 cowntdownHelper.TimerTick += CowntdownHelper_TimerTick;
             }
         }
+        public int HomeScore { set { lblHomeScore.Text = value.ToString(); } }
+        public int AwayScore { set { lblAwayScore.Text = value.ToString(); } }
+        public string HomeName { set { lblHomeName.Text = value; } }
+        public string AwayName { set { lblAwayName.Text = value; } }
+        public string HomeDesc { set { lblHomeDesc.Text = value; } }
+        public string AwayDesc { set { lblAwayDesc.Text = value; } }
+
+        public bool HomePowerPlay { set { imgHomePowerPlay.Visibility = value ? Visibility.Visible : Visibility.Collapsed; } }
+        public bool AwayPowerPlay { set { imgAwayPowerPlay.Visibility = value ? Visibility.Visible : Visibility.Collapsed; } }
 
         int round = 0;
 

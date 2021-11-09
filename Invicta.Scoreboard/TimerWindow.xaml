@@ -78,7 +78,7 @@
                 <RowDefinition Height="0.5*"/>
                 <RowDefinition Height="0.5*"/>
             </Grid.RowDefinitions>
-            <TextBlock x:Name="colorHome1" Grid.Row="0" Background="White" Width="Auto" />
+            <TextBlock x:Name="colorHome1" Grid.Row="0" Background="Yellow" Width="Auto" />
             <TextBlock x:Name="colorHome2" Grid.Row="1" Background="Blue" Width="Auto" />
         </Grid>
         <Grid Grid.Row="1" Grid.Column="4" Background="White" Width="5" Height="40" HorizontalAlignment="Right">
@@ -87,7 +87,7 @@
                 <RowDefinition Height="0.5*"/>
             </Grid.RowDefinitions>
             <TextBlock x:Name="colorAway1" Grid.Row="0" Background="Blue" Width="Auto" />
-            <TextBlock x:Name="colorAway2" Grid.Row="1" Background="Blue" Width="Auto" />
+            <TextBlock x:Name="colorAway2" Grid.Row="1" Background="Red" Width="Auto" />
         </Grid>
 
     </Grid>

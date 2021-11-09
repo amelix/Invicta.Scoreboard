@@ -29,10 +29,18 @@ namespace Invicta.Scoreboard
         public MainWindow()
         {
             InitializeComponent();
-
+            
             cowntdownHelper = new CountdownHelper();
             //cowntdownHelper.Start(10, 0, 0);
             cowntdownHelper.TimerTick += CowntdownHelper_TimerTick;
+            cowntdownHelper.SetTime(Match.Current.Minutes,
+                Match.Current.Seconds,
+                Match.Current.Milliseconds);
+
+            txtMinutes.Text = Match.Current.Minutes.ToString();
+            txtSeconds.Text = Match.Current.Seconds.ToString();
+            txtMilliseconds.Text = Match.Current.Milliseconds.ToString();
+
 
             risultatoPiccolo = new TimerWindow();
             risultatoPiccolo.CowntdownHelper = cowntdownHelper;
@@ -42,7 +50,9 @@ namespace Invicta.Scoreboard
             risultatoGrande.CowntdownHelper = cowntdownHelper;
             risultatoGrande.Show();
 
-            btnAlignTeams_Click(btnAlignTeams, new RoutedEventArgs());
+            //btnAlignTeams_Click(btnAlignTeams, new RoutedEventArgs());
+
+            AlignData();
         }
 
         private void CowntdownHelper_TimerTick(object sender, CowntdownHelperEventArgs e)
@@ -107,39 +117,101 @@ namespace Invicta.Scoreboard
             //    Thread.Sleep(1000);
             //}
             if (cowntdownHelper.Running)
+            {
                 cowntdownHelper.Stop();
+            }
             else
+            {
                 cowntdownHelper.Start(cowntdownHelper.Minutes, cowntdownHelper.Seconds, cowntdownHelper.Milliseconds);
+            }
+
+            Match.Current.Minutes = Convert.ToInt32(txtMinutes.Text);
+            Match.Current.Seconds = Convert.ToInt32(txtSeconds.Text);
+            Match.Current.Milliseconds = Convert.ToInt32(txtMilliseconds.Text);
+            
+            Match.Current.Save();
         }
 
         private void btnAlign_Click(object sender, RoutedEventArgs e)
         {
-            cowntdownHelper.SetTime(
-                Convert.ToInt32(txtMinutes.Text),
-                Convert.ToInt32(txtSeconds.Text),
-                Convert.ToInt32(txtMilliseconds.Text));
+            if (!cowntdownHelper.Running)
+            {
+                cowntdownHelper.Start(
+                    Convert.ToInt32(txtMinutes.Text),
+                    Convert.ToInt32(txtSeconds.Text),
+                    Convert.ToInt32(txtMilliseconds.Text));
+
+                cowntdownHelper.Stop();
+            }
+            else
+            {
+                cowntdownHelper.Start(
+                    Convert.ToInt32(txtMinutes.Text),
+                    Convert.ToInt32(txtSeconds.Text),
+                    Convert.ToInt32(txtMilliseconds.Text));
+            }
+            Match.Current.Minutes = Convert.ToInt32(txtMinutes.Text);
+            Match.Current.Seconds = Convert.ToInt32(txtSeconds.Text);
+            Match.Current.Milliseconds = Convert.ToInt32(txtMilliseconds.Text);
+
+            Match.Current.Save();
         }
 
 
         private void btnAlignTeams_Click(object sender, RoutedEventArgs e)
         {
-            risultatoGrande.HomeName = txtHomeLong.Text;
-            risultatoGrande.HomeScore = Convert.ToInt32(txtHomeScore.Text);
-            risultatoGrande.HomePowerPlay = chkHomePowerPlay.IsChecked.Value;
-            risultatoGrande.HomeDesc = txtHomeDesc.Text;
+            Match.Current.Home.NameShort = txtHomeShort.Text;
+            Match.Current.Home.Name = txtHomeLong.Text;
+            Match.Current.Home.Score = Convert.ToInt32(txtHomeScore.Text);
+            Match.Current.Home.PowerPlay = chkHomePowerPlay.IsChecked.Value;
+            Match.Current.Home.History = txtHomeDesc.Text;
 
-            risultatoGrande.AwayScore = Convert.ToInt32(txtAwayScore.Text);
-            risultatoGrande.AwayName = txtAwayLong.Text;
-            risultatoGrande.AwayPowerPlay = chkAwayPowerPlay.IsChecked.Value;
-            risultatoGrande.AwayDesc = txtAwayDesc.Text;
+            Match.Current.Away.NameShort = txtAwayShort.Text;
+            Match.Current.Away.Name = txtAwayLong.Text;
+            Match.Current.Away.Score = Convert.ToInt32(txtAwayScore.Text);
+            Match.Current.Away.PowerPlay = chkAwayPowerPlay.IsChecked.Value;
+            Match.Current.Away.History = txtAwayDesc.Text;
 
-            risultatoPiccolo.HomeName = txtHomeShort.Text;
-            risultatoPiccolo.HomeScore = Convert.ToInt32(txtHomeScore.Text);
-            risultatoPiccolo.HomePowerPlay = chkHomePowerPlay.IsChecked.Value;
+            Match.Current.Minutes = Convert.ToInt32(txtMinutes.Text);
+            Match.Current.Seconds = Convert.ToInt32(txtSeconds.Text);
+            Match.Current.Milliseconds = Convert.ToInt32(txtMilliseconds.Text);
+            
+            AlignData();
 
-            risultatoPiccolo.AwayScore = Convert.ToInt32(txtAwayScore.Text);
-            risultatoPiccolo.AwayName = txtAwayShort.Text;
-            risultatoPiccolo.AwayPowerPlay = chkAwayPowerPlay.IsChecked.Value;
+            Match.Current.Save();
+        }
+
+        private void AlignData()
+        {
+            txtHomeShort.Text = Match.Current.Home.NameShort;
+            txtHomeLong.Text = Match.Current.Home.Name;
+            txtHomeScore.Text = Match.Current.Home.Score.ToString();
+            chkHomePowerPlay.IsChecked = Match.Current.Home.PowerPlay;
+            txtHomeDesc.Text = Match.Current.Home.History;
+
+            txtAwayShort.Text = Match.Current.Away.NameShort;
+            txtAwayLong.Text = Match.Current.Away.Name;
+            txtAwayScore.Text = Match.Current.Away.Score.ToString();
+            chkAwayPowerPlay.IsChecked = Match.Current.Away.PowerPlay;
+            txtAwayDesc.Text = Match.Current.Away.History;
+
+            risultatoGrande.HomeName = Match.Current.Home.Name;
+            risultatoGrande.HomeScore = Match.Current.Home.Score;
+            risultatoGrande.HomePowerPlay = Match.Current.Home.PowerPlay;
+            risultatoGrande.HomeDesc = Match.Current.Home.History;
+
+            risultatoGrande.AwayName = Match.Current.Away.Name;
+            risultatoGrande.AwayScore = Match.Current.Away.Score;
+            risultatoGrande.AwayPowerPlay = Match.Current.Away.PowerPlay;
+            risultatoGrande.AwayDesc = Match.Current.Away.History;
+
+            risultatoPiccolo.HomeName = Match.Current.Home.NameShort;
+            risultatoPiccolo.HomeScore = Match.Current.Home.Score;
+            risultatoPiccolo.HomePowerPlay = Match.Current.Home.PowerPlay;
+
+            risultatoPiccolo.AwayName = Match.Current.Away.NameShort;
+            risultatoPiccolo.AwayScore = Match.Current.Away.Score;
+            risultatoPiccolo.AwayPowerPlay = Match.Current.Away.PowerPlay;
         }
     }
 }

@@ -46,6 +46,10 @@ namespace Invicta.Scoreboard.Code
             Running = false;
         }
 
+        public void AddSeconds(double value)
+        {
+            _endTime = _endTime.AddSeconds(value);
+        }
         private void OnTimerTick(int minutes, int seconds, int milliseconds = 0)
         {
             TimerTick?.Invoke(this, new CowntdownHelperEventArgs() { Minutes = minutes, Seconds = seconds, Milliseconds = milliseconds });
@@ -114,7 +118,10 @@ namespace Invicta.Scoreboard.Code
             Minutes = minutes;
             Seconds = seconds;
             Milliseconds = milliseconds > 0 ? milliseconds : milliseconds + 500;
-            _endTime = DateTime.Now.AddMinutes(minutes).AddSeconds(seconds).AddMilliseconds(milliseconds);
+            _endTime = DateTime.Now
+                .AddMinutes(minutes)
+                .AddSeconds(seconds)
+                .AddMilliseconds(milliseconds);
         }
     }
 

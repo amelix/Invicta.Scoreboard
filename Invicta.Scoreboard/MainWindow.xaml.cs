@@ -25,11 +25,12 @@ namespace Invicta.Scoreboard
         RisultatoGrande risultatoGrande;
         TimerWindow risultatoPiccolo;
         CountdownHelper cowntdownHelper;
+        FisrMatch FisrMatch;
 
         public MainWindow()
         {
             InitializeComponent();
-            
+
             cowntdownHelper = new CountdownHelper();
             //cowntdownHelper.Start(10, 0, 0);
             cowntdownHelper.TimerTick += CowntdownHelper_TimerTick;
@@ -53,10 +54,20 @@ namespace Invicta.Scoreboard
             //btnAlignTeams_Click(btnAlignTeams, new RoutedEventArgs());
 
             AlignData();
+
+            FisrMatch = new FisrMatch();
         }
 
         private void CowntdownHelper_TimerTick(object sender, CowntdownHelperEventArgs e)
         {
+            // Uses the Keyboard.GetKeyStates to determine if a key is down.
+            // A bitwise AND operation is used in the comparison.
+            // e is an instance of KeyEventArgs.
+            if ((Keyboard.GetKeyStates(Key.P) & Keyboard.GetKeyStates(Key.LeftCtrl) & KeyStates.Down) > 0)
+            {
+                Pause();
+            }
+
             if (e.Minutes > 0)
             {
                 lblTime.Content = $"{e.Minutes:00}:{e.Seconds:00}";
@@ -105,17 +116,21 @@ namespace Invicta.Scoreboard
 
         private void lblTime_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            //MessageBox.Show("Prova");
-            //for (var i = 0; i < 10; i++)
-            //{
-            //    BitmapImage image = new BitmapImage();
-            //    image.BeginInit();
-            //    image.UriSource = new Uri($"pack://application:,,,/Style/Verdana/{i}.png");
-            //    image.EndInit();
+            Pause();
+        }
+        //MessageBox.Show("Prova");
+        //for (var i = 0; i < 10; i++)
+        //{
+        //    BitmapImage image = new BitmapImage();
+        //    image.BeginInit();
+        //    image.UriSource = new Uri($"pack://application:,,,/Style/Verdana/{i}.png");
+        //    image.EndInit();
 
-            //    imgHH2.Source = image; //Image.from ImageSource.( $"Style\\Verdana\\{i}.png";
-            //    Thread.Sleep(1000);
-            //}
+        //    imgHH2.Source = image; //Image.from ImageSource.( $"Style\\Verdana\\{i}.png";
+        //    Thread.Sleep(1000);
+        //}
+        private void Pause()
+        {
             if (cowntdownHelper.Running)
             {
                 cowntdownHelper.Stop();
@@ -128,8 +143,10 @@ namespace Invicta.Scoreboard
             Match.Current.Minutes = Convert.ToInt32(txtMinutes.Text);
             Match.Current.Seconds = Convert.ToInt32(txtSeconds.Text);
             Match.Current.Milliseconds = Convert.ToInt32(txtMilliseconds.Text);
-            
+
             Match.Current.Save();
+
+            FisrMatch.Id = Convert.ToInt32(txtMatchId.Text);
         }
 
         private void btnAlign_Click(object sender, RoutedEventArgs e)
@@ -155,6 +172,8 @@ namespace Invicta.Scoreboard
             Match.Current.Milliseconds = Convert.ToInt32(txtMilliseconds.Text);
 
             Match.Current.Save();
+
+            FisrMatch.Id = Convert.ToInt32(txtMatchId.Text);
         }
 
 
@@ -175,7 +194,7 @@ namespace Invicta.Scoreboard
             Match.Current.Minutes = Convert.ToInt32(txtMinutes.Text);
             Match.Current.Seconds = Convert.ToInt32(txtSeconds.Text);
             Match.Current.Milliseconds = Convert.ToInt32(txtMilliseconds.Text);
-            
+
             AlignData();
 
             Match.Current.Save();
@@ -212,6 +231,16 @@ namespace Invicta.Scoreboard
             risultatoPiccolo.AwayName = Match.Current.Away.NameShort;
             risultatoPiccolo.AwayScore = Match.Current.Away.Score;
             risultatoPiccolo.AwayPowerPlay = Match.Current.Away.PowerPlay;
+        }
+
+        private void btnUp_Click(object sender, RoutedEventArgs e)
+        {
+            cowntdownHelper.AddSeconds(1);
+        }
+
+        private void btnDown_Click(object sender, RoutedEventArgs e)
+        {
+            cowntdownHelper.AddSeconds(-1);
         }
     }
 }

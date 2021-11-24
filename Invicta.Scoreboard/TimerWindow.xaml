@@ -86,8 +86,8 @@
                 <RowDefinition Height="0.5*"/>
                 <RowDefinition Height="0.5*"/>
             </Grid.RowDefinitions>
-            <TextBlock x:Name="colorAway1" Grid.Row="0" Background="Blue" Width="Auto" />
-            <TextBlock x:Name="colorAway2" Grid.Row="1" Background="Red" Width="Auto" />
+            <TextBlock x:Name="colorAway1" Grid.Row="0" Background="Black" Width="Auto" />
+            <TextBlock x:Name="colorAway2" Grid.Row="1" Background="Black" Width="Auto" />
         </Grid>
 
     </Grid>

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Invicta.Scoreboard"
         mc:Ignorable="d"
         Title="Invicta" Height="830" Width="1100" SizeChanged="Window_SizeChanged" 
-        ResizeMode="NoResize" 
+        
         WindowStartupLocation="Manual" Top="0" Left="430">
     <Grid Background="Black">
         <Grid.ColumnDefinitions>
@@ -40,6 +40,16 @@
                        MouseLeftButtonDown="lblTime_MouseLeftButtonDown"/>
             </Border>
         </Grid>
+        <Grid Grid.Row="0" Grid.Column="6">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Button x:Name="btnUp" Grid.Row="0" Content="+" Width="50" Click="btnUp_Click" />
+            <Button x:Name="btnDown" Grid.Row="1" Content="-" Width="50" Click="btnDown_Click" />
+        </Grid>
+        <TextBlock Text="Match Id" Grid.Row="0" Grid.Column="7" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="24"/>
+        <TextBox x:Name="txtMatchId" Text="7712" Grid.Row="0" Grid.Column="8" TextAlignment="Center" VerticalContentAlignment="Center" FontSize="24" />
 
         <TextBlock Text="Home" Grid.Row="1" Grid.Column="0" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="24"/>
         <TextBox x:Name="txtHomeShort" Text="MOD" Grid.Row="1" Grid.Column="1" TextAlignment="Center" VerticalContentAlignment="Center" FontSize="24" />

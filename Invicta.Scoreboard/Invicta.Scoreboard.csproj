@@ -90,6 +90,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Code\FisrMatch.cs" />
     <Compile Include="Code\Match.cs" />
     <Compile Include="Code\Team.cs" />
     <Compile Include="RisultatoGrande.xaml.cs">

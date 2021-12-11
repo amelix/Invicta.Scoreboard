@@ -14,7 +14,7 @@ namespace Invicta.Scoreboard.Code
     {
         private DateTime _endTime;
         private TimeSpan _timeLeft;
-        private DispatcherTimer _timer;
+        private readonly DispatcherTimer _timer;
 
         public bool Running { get; private set; }
         public int Minutes { get; private set; }

@@ -9,10 +9,10 @@ using System.IO;
 
 namespace Invicta.Scoreboard.Code
 {
-    public class Match
+    public class MatchDetail
     {
-        private static Match _current;
-        public static Match Current
+        private static MatchDetail _current;
+        public static MatchDetail Current
         {
             get
             {
@@ -34,21 +34,23 @@ namespace Invicta.Scoreboard.Code
         public int Seconds { get; set; }
         public int Milliseconds { get; set; }
 
-        public Match()
+        public int MatchId { get; set; }
+
+        public MatchDetail()
         {
             Home = new Team();
             Away = new Team();
         }
 
-        public static Match Load()
+        public static MatchDetail Load()
         {
             if (File.Exists(JsonFileName))
             {
                 var json = File.ReadAllText(JsonFileName);
-                return JsonSerializer.Deserialize<Match>(json);
+                return JsonSerializer.Deserialize<MatchDetail>(json);
             }
 
-            return new Match();
+            return new MatchDetail();
         }
         public void Save()
         {

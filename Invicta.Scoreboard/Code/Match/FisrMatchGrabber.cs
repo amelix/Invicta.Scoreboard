@@ -20,10 +20,12 @@ namespace Invicta.Scoreboard.Code.Match
 
         private DispatcherTimer _timer;
         public int? Id { get; set; }
+        public string HomeTeamCode { get; set; }
+        public string AwayTeamCode { get; set; }
 
         public FisrMatchGrabber()
         {
-            var tick = new TimeSpan(0, 0, 0, 33, 333);
+            var tick = new TimeSpan(0, 0, 0, 5, 333);
             _timer = new DispatcherTimer(tick, DispatcherPriority.Normal, OnTimerTick, Application.Current.Dispatcher);
 
             _timer.Start();
@@ -39,10 +41,44 @@ namespace Invicta.Scoreboard.Code.Match
             //}
         }
 
+        private async Task GetMatchId()
+        {
+            var client = new HttpClient();
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri("http://www.server2.sidgad.es/fisr/fisr_mc_2.php"),
+            };
+            using (var response = await client.SendAsync(request))
+            {
+                response.EnsureSuccessStatusCode();
+                var body = await response.Content.ReadAsStringAsync();
+                var i = body.IndexOf($",\"{HomeTeamCode}\",\"{AwayTeamCode}\"");
+                if (i > 20)
+                {
+                    i -= 20;
+                    i = body.IndexOf("writeData", i);
+                    if (i > 0)
+                    {
+                        i += 11;
+                        var f = body.IndexOf("\"", i);
+                        if (f > 0)
+                        {
+                            var matchId = body.Substring(i, f - i);
+                            Id = Convert.ToInt32(matchId);
+                        }
+                    }
+                }
+            }
+        }
+
         private async Task<string> GetPageAsync()
         {
             if (!Id.HasValue)
+            {
+                _ = GetMatchId();
                 return null;
+            }
 
             var client = new HttpClient();
             var request = new HttpRequestMessage
@@ -133,7 +169,11 @@ namespace Invicta.Scoreboard.Code.Match
                             value = GetTagValue(ref row, tagStart, tagEnd);
                             //rows += $"Action: {value}\n";
                             //row = row.Replace($"{tagStart}{value}{tagEnd}", "");
-                            if (string.Compare(value, "gol", true) == 0)
+                            if (string.Compare(value, "Sostituzione Portiere", true) == 0)
+                            {
+                                detail.EventType = EventDetail.EventTypes.Goalkeeper;
+                            }
+                            else if (string.Compare(value, "gol", true) == 0)
                             {
                                 detail.EventType = EventDetail.EventTypes.Gol;
                             }

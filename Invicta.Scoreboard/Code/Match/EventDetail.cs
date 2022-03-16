@@ -12,7 +12,8 @@ namespace Invicta.Scoreboard.Code.Match
         {
             Gol,
             Timeout,
-            Fallo
+            Fallo,
+            Goalkeeper
         }
 
         public enum TimeType : byte
@@ -54,58 +55,61 @@ Team Full 2:  Hc Falcons
             //result.Append('[');
             //result.Append(TeamCode);
             //result.Append(']');
-
-            switch (Tempo)
+            if (EventType == EventTypes.Gol || EventType == EventTypes.Timeout || EventType == EventTypes.Fallo)
             {
-                case TimeType.PrimoTempo:
-                    result.Append("1°");
-                    result.Append(' ');
-                    result.Append(Minuto);
-                    result.Append(' ');
-                    break;
-                case TimeType.SecondoTempo:
-                    result.Append("2°");
-                    result.Append(' ');
-                    result.Append(Minuto);
-                    result.Append(' ');
-                    break;
-                case TimeType.TempoSupplementare:
-                    result.Append("SUP");
-                    result.Append(' ');
-                    result.Append(Minuto);
-                    result.Append(' ');
-                    break;
-                case TimeType.Rigori:
-                    result.Append("Rigori");
-                    result.Append(' ');
-                    break;
-                default:
-                    break;
-            }
-
-            switch (EventType)
-            {
-                case EventTypes.Gol:
-                    result.Append("Gol di");
-                    result.Append(' ');
-                    result.Append(GetPlayerName(PlayerName, PlayerId));
-                    if (!string.IsNullOrWhiteSpace(AssistPlayerName))
-                    {
-                        result.Append('\n');
-                        result.Append("     su assist di");
+                switch (Tempo)
+                {
+                    case TimeType.PrimoTempo:
+                        result.Append("1° tempo");
                         result.Append(' ');
-                        result.Append(GetPlayerName(AssistPlayerName, AssistPlayerId));
-                    }
-                    break;
-                case EventTypes.Timeout:
-                    result.Append("Timeout");
-                    break;
-                case EventTypes.Fallo:
-                    result.Append("Fallo");
-                    result.Append(' ');
-                    result.Append(GetPlayerName(PlayerName, PlayerId));
-                    break;
+                        result.Append(Minuto);
+                        result.Append(' ');
+                        break;
+                    case TimeType.SecondoTempo:
+                        result.Append("2° tempo");
+                        result.Append(' ');
+                        result.Append(Minuto);
+                        result.Append(' ');
+                        break;
+                    case TimeType.TempoSupplementare:
+                        result.Append("SUP");
+                        result.Append(' ');
+                        result.Append(Minuto);
+                        result.Append(' ');
+                        break;
+                    case TimeType.Rigori:
+                        result.Append("Rigori");
+                        result.Append(' ');
+                        break;
+                    default:
+                        break;
+                }
+
+                switch (EventType)
+                {
+                    case EventTypes.Gol:
+                        result.Append("Gol di");
+                        result.Append(' ');
+                        result.Append(GetPlayerName(PlayerName, PlayerId));
+                        if (!string.IsNullOrWhiteSpace(AssistPlayerName))
+                        {
+                            result.Append('\n');
+                            result.Append("     su assist di");
+                            result.Append(' ');
+                            result.Append(GetPlayerName(AssistPlayerName, AssistPlayerId));
+                        }
+                        break;
+                    case EventTypes.Timeout:
+                        result.Append("Timeout");
+                        break;
+                    case EventTypes.Fallo:
+                        result.Append("Fallo");
+                        result.Append(' ');
+                        result.Append(GetPlayerName(PlayerName, PlayerId));
+                        break;
+                }
             }
+
             return result.ToString();
         }
 

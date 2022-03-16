@@ -2,6 +2,7 @@
 using Invicta.Scoreboard.Code.Match;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -53,6 +54,7 @@ namespace Invicta.Scoreboard
             risultatoGrande.Show();
 
             //btnAlignTeams_Click(btnAlignTeams, new RoutedEventArgs());
+            File.WriteAllText(@"C:\Hockey\Testi\TestoScorrevole.txt", "");
 
             AlignData();
 
@@ -60,10 +62,33 @@ namespace Invicta.Scoreboard
             FisrMatch.MatchUpdate += FisrMatch_MatchUpdate;
         }
 
+        bool _history = false;
+        DateTime _dateTimeHistory = DateTime.Now.AddDays(-1);
+        List<EventDetail> _eventDetailListHistory = new List<EventDetail>();
+
         private void FisrMatch_MatchUpdate(object sender, EventArgs ea)
         {
-            var homeEvents = ((List<EventDetail>)sender).Where(m => string.Compare(m.TeamCode, txtHomeShort.Text, true) == 0).ToList();
-            var awayEvents = ((List<EventDetail>)sender).Where(m => string.Compare(m.TeamCode, txtAwayShort.Text, true) == 0).ToList();
+            if (string.IsNullOrWhiteSpace(txtMatchId.Text) && FisrMatch.Id.HasValue)
+                txtMatchId.Text = FisrMatch.Id.Value.ToString();
+
+            var eventDetailList = (List<EventDetail>)sender;
+            if (!_history && eventDetailList.Count != _eventDetailListHistory.Count)
+            {
+                try
+                {
+                    var text = $"{MatchDetail.Current.Teams[eventDetailList[0].TeamCode.ToUpper()].Name} - {eventDetailList[0]}";
+                    text = text.Replace('\n', ' ');
+
+                    File.WriteAllText(@"C:\Hockey\Testi\TestoScorrevole.txt", text.PadLeft(100 - text.Length, ' '));
+                    _dateTimeHistory = DateTime.Now.AddSeconds(20);
+                    _history = true;
+                    _eventDetailListHistory = eventDetailList;
+                }
+                catch { }
+            }
+
+            var homeEvents = eventDetailList.Where(m => string.Compare(m.TeamCode, txtHomeShort.Text, true) == 0).ToList();
+            var awayEvents = eventDetailList.Where(m => string.Compare(m.TeamCode, txtAwayShort.Text, true) == 0).ToList();
 
             if (homeEvents.Count > 0)
             {
@@ -86,19 +111,22 @@ namespace Invicta.Scoreboard
             if (awayEvents.Count > 0)
             {
                 int gol = 0;
-                var s = new StringBuilder();
+                var stringBuilder = new StringBuilder();
                 foreach (var ev in awayEvents.OrderByDescending(e => e.Tempo).ThenBy(e => e.Minuto))
                 {
+                    if (ev.EventType == EventDetail.EventTypes.Goalkeeper)
+                        continue;
+
                     if (ev.EventType == EventDetail.EventTypes.Gol)
                         gol++;
 
-                    s.AppendLine(ev.ToString());
+                    stringBuilder.AppendLine(ev.ToString());
                 }
 
                 if (MatchDetail.Current.Away.Score < gol)
                     MatchDetail.Current.Away.Score = gol;
 
-                MatchDetail.Current.Away.History = s.ToString();
+                MatchDetail.Current.Away.History = stringBuilder.ToString();
             }
 
             AlignData();
@@ -106,6 +134,14 @@ namespace Invicta.Scoreboard
 
         private void CowntdownHelper_TimerTick(object sender, CowntdownHelperEventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(txtMatchId.Text) && FisrMatch.Id.HasValue)
+                txtMatchId.Text = FisrMatch.Id.Value.ToString();
+
+            if (_history && _dateTimeHistory < DateTime.Now)
+            {
+                _history = false;
+                File.WriteAllText(@"C:\Hockey\Testi\TestoScorrevole.txt", "");
+            }
             // Uses the Keyboard.GetKeyStates to determine if a key is down.
             // A bitwise AND operation is used in the comparison.
             // e is an instance of KeyEventArgs.
@@ -191,8 +227,13 @@ namespace Invicta.Scoreboard
             MatchDetail.Current.Milliseconds = Convert.ToInt32(txtMilliseconds.Text);
 
             MatchDetail.Current.Save();
+            if (string.IsNullOrWhiteSpace(txtMatchId.Text))
+                FisrMatch.Id = null;
+            else
+                FisrMatch.Id = Convert.ToInt32(txtMatchId.Text);
 
-            FisrMatch.Id = Convert.ToInt32(txtMatchId.Text);
+            FisrMatch.HomeTeamCode = txtHomeShort.Text;
+            FisrMatch.AwayTeamCode = txtAwayShort.Text;
         }
 
         private void btnAlign_Click(object sender, RoutedEventArgs e)
@@ -217,22 +258,36 @@ namespace Invicta.Scoreboard
             MatchDetail.Current.Seconds = Convert.ToInt32(txtSeconds.Text);
             MatchDetail.Current.Milliseconds = Convert.ToInt32(txtMilliseconds.Text);
 
-            MatchDetail.Current.MatchId = Convert.ToInt32(txtMatchId.Text);
+            if (string.IsNullOrWhiteSpace(txtMatchId.Text))
+            {
+                MatchDetail.Current.MatchId = null;
+                FisrMatch.Id = null;
+            }
+            else
+            {
+                MatchDetail.Current.MatchId = Convert.ToInt32(txtMatchId.Text);
+                FisrMatch.Id = MatchDetail.Current.MatchId;
+            }
+
+            AlignData();
 
             MatchDetail.Current.Save();
 
-            FisrMatch.Id = MatchDetail.Current.MatchId;
+            FisrMatch.HomeTeamCode = MatchDetail.Current.Home.NameShort;
+            FisrMatch.AwayTeamCode = MatchDetail.Current.Away.NameShort;
         }
 
 
         private void btnAlignTeams_Click(object sender, RoutedEventArgs e)
         {
+            MatchDetail.Current.Teams[txtHomeShort.Text] = MatchDetail.Current.Home;
             MatchDetail.Current.Home.NameShort = txtHomeShort.Text;
             MatchDetail.Current.Home.Name = txtHomeLong.Text;
             MatchDetail.Current.Home.Score = Convert.ToInt32(txtHomeScore.Text);
             MatchDetail.Current.Home.PowerPlay = chkHomePowerPlay.IsChecked.Value;
             MatchDetail.Current.Home.History = txtHomeDesc.Text;
 
+            MatchDetail.Current.Teams[txtAwayShort.Text] = MatchDetail.Current.Away;
             MatchDetail.Current.Away.NameShort = txtAwayShort.Text;
             MatchDetail.Current.Away.Name = txtAwayLong.Text;
             MatchDetail.Current.Away.Score = Convert.ToInt32(txtAwayScore.Text);
@@ -243,13 +298,23 @@ namespace Invicta.Scoreboard
             MatchDetail.Current.Seconds = Convert.ToInt32(txtSeconds.Text);
             MatchDetail.Current.Milliseconds = Convert.ToInt32(txtMilliseconds.Text);
 
-            MatchDetail.Current.MatchId = Convert.ToInt32(txtMatchId.Text);
+            if (string.IsNullOrWhiteSpace(txtMatchId.Text))
+            {
+                MatchDetail.Current.MatchId = null;
+                FisrMatch.Id = null;
+            }
+            else
+            {
+                MatchDetail.Current.MatchId = Convert.ToInt32(txtMatchId.Text);
+                FisrMatch.Id = MatchDetail.Current.MatchId;
+            }
 
             AlignData();
 
             MatchDetail.Current.Save();
 
-            FisrMatch.Id = MatchDetail.Current.MatchId;
+            FisrMatch.HomeTeamCode = MatchDetail.Current.Home.NameShort;
+            FisrMatch.AwayTeamCode = MatchDetail.Current.Away.NameShort;
         }
 
         private void AlignData()
@@ -284,7 +349,10 @@ namespace Invicta.Scoreboard
             risultatoPiccolo.AwayScore = MatchDetail.Current.Away.Score;
             risultatoPiccolo.AwayPowerPlay = MatchDetail.Current.Away.PowerPlay;
 
-            txtMatchId.Text = MatchDetail.Current.MatchId.ToString();
+            if (FisrMatch != null && FisrMatch.Id.HasValue)
+                txtMatchId.Text = FisrMatch.Id.ToString();
+            else
+                txtMatchId.Text = "";
         }
 
         private void btnUp_Click(object sender, RoutedEventArgs e)
@@ -295,6 +363,12 @@ namespace Invicta.Scoreboard
         private void btnDown_Click(object sender, RoutedEventArgs e)
         {
             cowntdownHelper.AddSeconds(-1);
+        }
+
+        private void txtMatchId_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            txtMatchId.Text = null;
+            FisrMatch.Id = null;
         }
     }
 }

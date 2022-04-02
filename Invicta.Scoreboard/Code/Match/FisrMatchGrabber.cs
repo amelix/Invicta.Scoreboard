@@ -126,15 +126,15 @@ namespace Invicta.Scoreboard.Code.Match
                             //row = row.Replace($"{tagStart}{value}{tagEnd}", "");
                             if (string.Compare(value, "p1", true) == 0)
                             {
-                                detail.Tempo = EventDetail.TimeType.PrimoTempo;
+                                detail.Tempo = EventDetail.TimeType.PrimoPeriodo;
                             }
                             else if (string.Compare(value, "p2", true) == 0)
                             {
-                                detail.Tempo = EventDetail.TimeType.SecondoTempo;
+                                detail.Tempo = EventDetail.TimeType.SecondoPeriodo;
                             }
                             else if (string.Compare(value, "p3", true) == 0)
                             {
-                                detail.Tempo = EventDetail.TimeType.TempoSupplementare;
+                                detail.Tempo = EventDetail.TimeType.ExtraTime;
                             }
                             else if (string.Compare(value, "p4", true) == 0)
                             {

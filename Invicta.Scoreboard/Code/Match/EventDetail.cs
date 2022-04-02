@@ -18,9 +18,9 @@ namespace Invicta.Scoreboard.Code.Match
 
         public enum TimeType : byte
         {
-            PrimoTempo,
-            SecondoTempo,
-            TempoSupplementare,
+            PrimoPeriodo,
+            SecondoPeriodo,
+            ExtraTime,
             Rigori
         }
 
@@ -59,19 +59,19 @@ Team Full 2:  Hc Falcons
             {
                 switch (Tempo)
                 {
-                    case TimeType.PrimoTempo:
+                    case TimeType.PrimoPeriodo:
                         result.Append("1° tempo");
                         result.Append(' ');
                         result.Append(Minuto);
                         result.Append(' ');
                         break;
-                    case TimeType.SecondoTempo:
+                    case TimeType.SecondoPeriodo:
                         result.Append("2° tempo");
                         result.Append(' ');
                         result.Append(Minuto);
                         result.Append(' ');
                         break;
-                    case TimeType.TempoSupplementare:
+                    case TimeType.ExtraTime:
                         result.Append("SUP");
                         result.Append(' ');
                         result.Append(Minuto);
@@ -95,6 +95,69 @@ Team Full 2:  Hc Falcons
                         {
                             result.Append('\n');
                             result.Append("     su assist di");
+                            result.Append(' ');
+                            result.Append(GetPlayerName(AssistPlayerName, AssistPlayerId));
+                        }
+                        break;
+                    case EventTypes.Timeout:
+                        result.Append("Timeout");
+                        break;
+                    case EventTypes.Fallo:
+                        result.Append("Fallo");
+                        result.Append(' ');
+                        result.Append(GetPlayerName(PlayerName, PlayerId));
+                        break;
+                }
+            }
+
+            return result.ToString();
+        }
+
+        public string ToStringLight()
+        {
+            var result = new StringBuilder();
+            //result.Append('[');
+            //result.Append(TeamCode);
+            //result.Append(']');
+            if (EventType == EventTypes.Gol || EventType == EventTypes.Timeout || EventType == EventTypes.Fallo)
+            {
+                switch (Tempo)
+                {
+                    case TimeType.PrimoPeriodo:
+                        result.Append("1°P");
+                        result.Append(' ');
+                        result.Append(Minuto);
+                        result.Append(' ');
+                        break;
+                    case TimeType.SecondoPeriodo:
+                        result.Append("2°P");
+                        result.Append(' ');
+                        result.Append(Minuto);
+                        result.Append(' ');
+                        break;
+                    case TimeType.ExtraTime:
+                        result.Append("SUP");
+                        result.Append(' ');
+                        result.Append(Minuto);
+                        result.Append(' ');
+                        break;
+                    case TimeType.Rigori:
+                        result.Append("Rigori");
+                        result.Append(' ');
+                        break;
+                    default:
+                        break;
+                }
+
+                switch (EventType)
+                {
+                    case EventTypes.Gol:
+                        result.Append("Gol di");
+                        result.Append(' ');
+                        result.Append(GetPlayerName(PlayerName, PlayerId));
+                        if (!string.IsNullOrWhiteSpace(AssistPlayerName))
+                        {
+                            result.Append(" assist di");
                             result.Append(' ');
                             result.Append(GetPlayerName(AssistPlayerName, AssistPlayerId));
                         }

@@ -78,8 +78,11 @@ namespace Invicta.Scoreboard
                 {
                     var text = $"{MatchDetail.Current.Teams[eventDetailList[0].TeamCode.ToUpper()].Name} - {eventDetailList[0]}";
                     text = text.Replace('\n', ' ');
+                    var maxTextLenght = 80;
+                    text = text.PadRight(maxTextLenght, ' ');
+                    text = text.Substring(0, maxTextLenght);
 
-                    File.WriteAllText(@"C:\Hockey\Testi\TestoScorrevole.txt", text.PadLeft(100 - text.Length, ' '));
+                    File.WriteAllText(@"C:\Hockey\Testi\TestoScorrevole.txt", text);
                     _dateTimeHistory = DateTime.Now.AddSeconds(20);
                     _history = true;
                     _eventDetailListHistory = eventDetailList;

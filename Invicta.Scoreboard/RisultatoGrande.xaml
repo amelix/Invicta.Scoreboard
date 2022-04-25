@@ -76,8 +76,8 @@
                 <RowDefinition Height="0.5*"/>
                 <RowDefinition Height="0.5*"/>
             </Grid.RowDefinitions>
-            <TextBlock x:Name="colorAway1" Grid.Row="0" Background="Yellow" Width="Auto" />
-            <TextBlock x:Name="colorAway2" Grid.Row="1" Background="Black" Width="Auto" />
+            <TextBlock x:Name="colorAway1" Grid.Row="0" Background="DarkBlue" Width="Auto" />
+            <TextBlock x:Name="colorAway2" Grid.Row="1" Background="White" Width="Auto" />
         </Grid>
 
         <!--<TextBlock x:Name="lblHomeName" Grid.Row="1" Grid.Column="1" Text="ASD US Invicta" Foreground="WhiteSmoke" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14"/>-->

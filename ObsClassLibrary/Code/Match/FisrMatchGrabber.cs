@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 
-namespace Invicta.Scoreboard.Code.Match
+namespace ObsClassLibrary.Code.Match
 {
     public class FisrMatchGrabber
     {
-        private int _events = 0;
+        private int? _events;
         public event EventHandler<EventArgs> MatchUpdate;
 
         //this line create a new TextInfo based on en-US culture
@@ -23,17 +23,28 @@ namespace Invicta.Scoreboard.Code.Match
         public string HomeTeamCode { get; set; }
         public string AwayTeamCode { get; set; }
 
+        public string HomeTeamUrl { get; set; }
+        public string AwayTeamUrl { get; set; }
+
         public FisrMatchGrabber()
         {
-            var tick = new TimeSpan(0, 0, 0, 5, 333);
+            var tick = new TimeSpan(0, 0, 0, 12, 345);
             _timer = new DispatcherTimer(tick, DispatcherPriority.Normal, OnTimerTick, Application.Current.Dispatcher);
 
             _timer.Start();
         }
 
+        public void Reset()
+        {
+            _events = null;
+            _timer.Stop();
+            _ = GetPageAsync();
+            _timer.Start();
+        }
+
         private void OnTimerTick(object sender, EventArgs e)
         {
-            var pageTask = GetPageAsync();
+            _ = GetPageAsync();
             //pageTask.Wait();
             //if (!string.IsNullOrWhiteSpace(pageTask.Result))
             //{
@@ -68,6 +79,44 @@ namespace Invicta.Scoreboard.Code.Match
                             Id = Convert.ToInt32(matchId);
                         }
                     }
+
+                    #region scorer_logo_left
+                    {
+                        var x = body.IndexOf("scorer_logo_left", i);
+                        if (x > 0)
+                        {
+                            x = body.IndexOf("<img src='", x);
+                            if (x > 0)
+                            {
+                                x += 10;
+                                var f = body.IndexOf("'", x);
+                                if (f > 0)
+                                {
+                                    HomeTeamUrl = body.Substring(x, f - x);
+                                }
+                            }
+                        }
+                    }
+                    #endregion
+                    #region scorer_logo_right
+                    {
+                        var x = body.IndexOf("scorer_logo_right", i);
+                        if (x > 0)
+                        {
+                            x = body.IndexOf("<img src='", x);
+                            if (x > 0)
+                            {
+                                x += 10;
+                                var f = body.IndexOf("'", x);
+                                if (f > 0)
+                                {
+                                    AwayTeamUrl = body.Substring(x, f - x);
+                                }
+                            }
+                        }
+                    }
+                    #endregion
+
                 }
             }
         }
@@ -105,7 +154,6 @@ namespace Invicta.Scoreboard.Code.Match
                 {
                     var tagStart = "<tr>";
                     var tagEnd = "</tr>";
-                    var value = "";
                     i = body.IndexOf(tagStart);
                     if (i > 0)
                     {
@@ -117,6 +165,7 @@ namespace Invicta.Scoreboard.Code.Match
                         var detail = new EventDetail();
                         details.Add(detail);
 
+                        string value;
                         #region Tempo
                         {
                             tagStart = "<div class=\"game_view_indcidencias_period\">";
@@ -262,7 +311,7 @@ namespace Invicta.Scoreboard.Code.Match
                     }
                 }
 
-                if (_events != details.Count)
+                if (!_events.HasValue || _events != details.Count)
                 {
                     _events = details.Count;
                     //System.IO.File.WriteAllText(@"C:\Temp\testClean.txt", rows);

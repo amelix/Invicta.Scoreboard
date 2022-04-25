@@ -1,0 +1,21 @@
+﻿<Window x:Class="ObsScoreHelper.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ObsClassLibrary.Controls;assembly=ObsClassLibrary"
+        xmlns:user="clr-namespace:ObsScoreHelper.UserConrol"
+        mc:Ignorable="d"
+        Loaded="Window_Loaded"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <TabControl>
+            <TabItem Header="Partita" Selector.IsSelected="True">
+                <user:MatchControl />
+            </TabItem>
+            <TabItem Header="Configurazioni Partita">
+                <local:MatchConfigurationControl x:Name="matchConfigurationControl" />
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Invicta.Scoreboard.Code
+namespace ObsClassLibrary.Code.Match
 {
     public class Team
     {
@@ -13,5 +13,6 @@ namespace Invicta.Scoreboard.Code
         public int Score { get; set; }
         public bool PowerPlay { get; set; }
         public string History { get; set; }
+        public string LogoTeamUrl { get; set; }
     }
 }

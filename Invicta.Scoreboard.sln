@@ -1,9 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30621.155
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Invicta.Scoreboard", "Invicta.Scoreboard\Invicta.Scoreboard.csproj", "{48760509-FD8A-46A6-8171-6D4BFD1D55BA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ObsScoreHelper", "ObsScoreHelper\ObsScoreHelper.csproj", "{39552C28-411A-4FA1-BFEA-46778B2B41D6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{EC358A8C-6BBA-4F03-B32B-1299A2662896}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObsClassLibrary", "ObsClassLibrary\ObsClassLibrary.csproj", "{01077600-BBAB-4AAA-89DF-5D85DBEB825C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +21,20 @@ Global
 		{48760509-FD8A-46A6-8171-6D4BFD1D55BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{48760509-FD8A-46A6-8171-6D4BFD1D55BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{48760509-FD8A-46A6-8171-6D4BFD1D55BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39552C28-411A-4FA1-BFEA-46778B2B41D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39552C28-411A-4FA1-BFEA-46778B2B41D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39552C28-411A-4FA1-BFEA-46778B2B41D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39552C28-411A-4FA1-BFEA-46778B2B41D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01077600-BBAB-4AAA-89DF-5D85DBEB825C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01077600-BBAB-4AAA-89DF-5D85DBEB825C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01077600-BBAB-4AAA-89DF-5D85DBEB825C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01077600-BBAB-4AAA-89DF-5D85DBEB825C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{01077600-BBAB-4AAA-89DF-5D85DBEB825C} = {EC358A8C-6BBA-4F03-B32B-1299A2662896}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A9620FEB-70EE-4421-979A-EA62F659DA9E}

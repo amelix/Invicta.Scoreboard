@@ -7,7 +7,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.IO;
 
-namespace Invicta.Scoreboard.Code
+namespace ObsClassLibrary.Code.Match
 {
     public class MatchDetail
     {
@@ -27,7 +27,7 @@ namespace Invicta.Scoreboard.Code
 
         private static string JsonFileName { get { return @"C:\Hockey\Match.json"; } }
 
-        public Dictionary<string,Team> Teams { get; set; }
+        public Dictionary<string, Team> Teams { get; set; }
         public Team Home { get; set; }
         public Team Away { get; set; }
 
@@ -39,7 +39,7 @@ namespace Invicta.Scoreboard.Code
 
         public MatchDetail()
         {
-            Teams = new Dictionary<string,Team>();
+            Teams = new Dictionary<string, Team>();
             Home = new Team();
             Away = new Team();
         }

@@ -41,7 +41,6 @@ namespace Invicta.Scoreboard.Code
             drawing.Dispose();
 
             return img;
-
         }
     }
 }

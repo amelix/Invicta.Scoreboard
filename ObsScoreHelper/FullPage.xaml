@@ -1,0 +1,267 @@
+﻿<Window x:Class="ObsScoreHelper.FullPage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ObsScoreHelper"
+        mc:Ignorable="d"
+        Title="FullPage" 
+        WindowStartupLocation="Manual" Left="0" Top="0"
+        Width="1280" Height="720" 
+        ResizeMode="CanMinimize">
+    <Window.Background>
+        <SolidColorBrush Opacity="1.0" Color="Magenta"/>
+    </Window.Background>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="25"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="25"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+        <Canvas Grid.Row="1" Grid.Column="1">
+            <!--<Label Grid.Row="0" x:Name="Visibility_Lbl"  MouseUp="Visibility_Lbl_MouseUp" Background="Red" Content="Set Grid Visible" Width="100" Height="25" Canvas.Top="0" Canvas.Left="500"/>-->
+            <!--<Label Grid.Row="1" x:Name="InVisibility_Lbl" MouseUp="InVisibility_Lbl_MouseUp" Background="Green"  Content="Set Grid InVisible" Width="100" Height="25" Canvas.Top="25"  Canvas.Left="500"/>-->
+            <!-- BIG -->
+            <Grid x:Name="grdScoreBig" Width="500" Canvas.Left="0"  >
+                <Grid.RenderTransform>
+                    <!--<TranslateTransform X="0" />-->
+                    <ScaleTransform ScaleX="1" />
+                </Grid.RenderTransform>
+                <Grid.Style>
+                    <Style TargetType="Grid" >
+                        <Style.Triggers>
+                            <DataTrigger 
+                                Binding="{Binding SmallSize, RelativeSource={RelativeSource  Mode=FindAncestor, AncestorType={ x:Type Window }}}" 
+                                Value="True">
+                                <DataTrigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation 
+                                                Storyboard.TargetProperty="Opacity"
+                                                From="0.0" 
+                                                To="1.0" 
+                                                Duration="0:0:0.5"/>
+                                            <!--<DoubleAnimation 
+                                                Storyboard.TargetProperty="Width"
+                                                From="200" 
+                                                To="300" 
+                                                Duration="0:0:0.5"/>-->
+                                            <!--<DoubleAnimation 
+                                                Storyboard.TargetProperty="RenderTransform.(TranslateTransform.X)"
+                                                From="100"  
+                                                To="0" 
+                                                Duration="0:0:0.5"/>-->
+                                            <DoubleAnimation 
+                                                Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)"
+                                                From="0.0"  
+                                                To="1.0" 
+                                                Duration="0:0:0.5"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </DataTrigger.EnterActions>
+                                <DataTrigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation 
+                                                Storyboard.TargetProperty="Opacity"
+                                                From="1.0" 
+                                                To="0.0" 
+                                                Duration="0:0:0.5"/>
+                                            <!--<DoubleAnimation 
+                                                Storyboard.TargetProperty="Width"
+                                                From="300" 
+                                                To="200" 
+                                                Duration="0:0:0.5"/>-->
+                                            <DoubleAnimation 
+                                                Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)"
+                                                From="1.0" 
+                                                To="0.0" 
+                                                Duration="0:0:0.5"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </DataTrigger.ExitActions>
+                            </DataTrigger>
+
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="40" />
+                        <!-- Logo H -->
+                        <ColumnDefinition />
+                        <!-- Nome H -->
+                        <ColumnDefinition Width="5" />
+                        <!-- Colori H -->
+                        <ColumnDefinition Width="30" />
+                        <!-- Risultato H -->
+                        <ColumnDefinition  Width="15"/>
+                        <!-- : -->
+                        <ColumnDefinition Width="30" />
+                        <!-- Risultato A -->
+                        <ColumnDefinition Width="5" />
+                        <!-- Colori A -->
+                        <ColumnDefinition />
+                        <!-- Nome A -->
+                        <ColumnDefinition Width="40" />
+                        <!-- Logo A -->
+                        <ColumnDefinition Width="10" />
+                        <!-- Tempo -->
+                        <ColumnDefinition Width="30"/>
+                        <ColumnDefinition Width="15"/>
+                        <ColumnDefinition Width="30"/>
+                        <!-- Tempo -->
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="8" />
+                        <RowDefinition Height="25" />
+                        <RowDefinition Height="8" />
+                        <RowDefinition Height="8" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <!-- Logo H -->
+                    <Image x:Name="imgHomeUrl" Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Width="40" Height="40" />
+                    <!-- Nome H -->
+                    <Border Grid.Row="1" Grid.Column="1" Background="Black"/>
+                    <Label Grid.Row="1" Grid.Column="1" x:Name="lblNameH" Content="Invicta Modena" Foreground="White" FontFamily="Verdana" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                    <Image Grid.Row="1" Grid.Column="1" x:Name="imgHomePowerPlay" Source="style/power_play.png" Height="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                    <!-- Colori H -->
+                    <!-- Risultato H -->
+                    <Border Grid.Row="0" Grid.Column="3" Grid.RowSpan="3" Grid.ColumnSpan="3" CornerRadius="5" BorderBrush="Black" BorderThickness="2" Background="White"/>
+                    <Label Grid.Row="0" Grid.Column="3" Grid.RowSpan="3" x:Name="lblResultH" Content="88" Foreground="Black" FontFamily="Verdana" Margin="0" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <!-- : -->
+                    <!--<Border Grid.Row="0" Grid.Column="4" Grid.RowSpan="3" Background="White"/>-->
+                    <Label Grid.Row="0" Grid.Column="4" Grid.RowSpan="3" Content=":" Foreground="Black" FontFamily="Verdana" Margin="0" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <!-- Risultato A -->
+                    <!--<Border Grid.Row="0" Grid.Column="5" Grid.RowSpan="3" Background="White"/>-->
+                    <Label Grid.Row="0" Grid.Column="5" Grid.RowSpan="3" x:Name="lblResultA" Content="88" Foreground="Black" FontFamily="Verdana" Margin="0" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <!-- Nome A -->
+                    <Border Grid.Row="1" Grid.Column="7" Background="Black"/>
+                    <Label Grid.Row="1" Grid.Column="7" x:Name="lblNameA" Content="Invicta Modena" Foreground="White" FontFamily="Verdana" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                    <Image Grid.Row="1" Grid.Column="7" x:Name="imgAwayPowerPlay" Source="style/power_play.png" Height="10" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+                    <Image x:Name="imgAwayUrl" Grid.Row="0" Grid.Column="8" Grid.RowSpan="3" Width="40" Height="40" />
+                    <!-- Time -->
+                    <Border Grid.Row="0" Grid.Column="10" Grid.RowSpan="3" Grid.ColumnSpan="3" CornerRadius="10,0,10,0" BorderBrush="Black" BorderThickness="2" Background="Red" Margin="0" Padding="0" />
+                    <Label Grid.Row="0" Grid.Column="10" Grid.RowSpan="3" x:Name="lblTimeH" Content="88" Foreground="Black" FontFamily="Verdana" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                    <Label Grid.Row="0" Grid.Column="11" Grid.RowSpan="3" x:Name="lblTimeDB" Content=":" Foreground="Black" FontFamily="Verdana" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <Label Grid.Row="0" Grid.Column="12" Grid.RowSpan="3" x:Name="lblTimeL" Content="88" Foreground="Black" FontFamily="Verdana" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Left" />
+
+                    <Border x:Name="txtDescriptionBorder" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="9" CornerRadius="10,0,10,0" BorderBrush="Black" BorderThickness="2" Background="Red" Margin="0" Padding="0" />
+                    <TextBox x:Name="txtDescription" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="9"  TextWrapping="Wrap" AcceptsReturn="True" Margin="5" BorderThickness="0" Background="Transparent"/>
+                </Grid>
+
+            </Grid>
+            <Grid x:Name="grdScoreSmall" Height="30"  Width="260" Canvas.Left="0"  >
+                <Grid.RenderTransform>
+                    <ScaleTransform ScaleX="1" />
+                </Grid.RenderTransform>
+                <Grid.Style>
+                    <Style TargetType="Grid" >
+                        <Style.Triggers>
+                            <DataTrigger 
+                                Binding="{Binding SmallSize, RelativeSource={RelativeSource  Mode=FindAncestor, AncestorType={ x:Type Window }}}" 
+                                Value="True">
+                                <DataTrigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation 
+                                                Storyboard.TargetProperty="Opacity"
+                                                From="1.0" 
+                                                To="0.0" 
+                                                Duration="0:0:0.5"/>
+                                            <DoubleAnimation 
+                                                Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)"
+                                                From="1.0"  
+                                                To="0.0" 
+                                                Duration="0:0:0.5"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </DataTrigger.EnterActions>
+                                <DataTrigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation 
+                                                Storyboard.TargetProperty="Opacity"
+                                                From="0.0" 
+                                                To="1.0" 
+                                                Duration="0:0:0.5"/>
+                                            <DoubleAnimation 
+                                                Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)"
+                                                From="0.0" 
+                                                To="1.0" 
+                                                Duration="0:0:0.5"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </DataTrigger.ExitActions>
+                            </DataTrigger>
+
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="10" />
+                        <!-- Logo H -->
+                        <ColumnDefinition />
+                        <!-- Nome H -->
+                        <ColumnDefinition Width="5" />
+                        <!-- Colori H -->
+                        <ColumnDefinition Width="27" />
+                        <!-- Risultato H -->
+                        <ColumnDefinition  Width="15"/>
+                        <!-- : -->
+                        <ColumnDefinition Width="27" />
+                        <!-- Risultato A -->
+                        <ColumnDefinition Width="5" />
+                        <!-- Colori A -->
+                        <ColumnDefinition />
+                        <!-- Nome A -->
+                        <ColumnDefinition Width="10" />
+                        <!-- Logo A -->
+                        <ColumnDefinition Width="10" />
+                        <!-- Tempo -->
+                        <ColumnDefinition Width="30"/>
+                        <ColumnDefinition Width="15"/>
+                        <ColumnDefinition Width="30"/>
+                        <!-- Tempo -->
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="25" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <!-- Logo H -->
+                    <!-- Nome H -->
+                    <Border Grid.Row="1" Grid.Column="1" Background="Black"/>
+                    <Label Grid.Row="1" Grid.Column="1" x:Name="lblNameShortH" Content="MOD" Foreground="White" FontFamily="Verdana" FontSize="12" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                    <Image Grid.Row="1" Grid.Column="1" x:Name="imgPowerPlayShortH" Source="style/power_play.png" Height="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                    <!-- Colori H -->
+                    <!-- Risultato H -->
+                    <Border Grid.Row="0" Grid.Column="3" Grid.RowSpan="3" Grid.ColumnSpan="3" CornerRadius="2" BorderBrush="Black" BorderThickness="1" Background="White"/>
+                    <Label Grid.Row="0" Grid.Column="3" Grid.RowSpan="3" x:Name="lblResultShortH" Content="88" Foreground="Black" FontFamily="Verdana" Margin="0" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <!-- : -->
+                    <!--<Border Grid.Row="0" Grid.Column="4" Grid.RowSpan="3" Background="White"/>-->
+                    <Label Grid.Row="0" Grid.Column="4" Grid.RowSpan="3" Content=":" Foreground="Black" FontFamily="Verdana" Margin="0" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <!-- Risultato A -->
+                    <!--<Border Grid.Row="0" Grid.Column="5" Grid.RowSpan="3" Background="White"/>-->
+                    <Label Grid.Row="0" Grid.Column="5" Grid.RowSpan="3" x:Name="lblResultShortA" Content="88" Foreground="Black" FontFamily="Verdana" Margin="0" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <!-- Nome A -->
+                    <Border Grid.Row="1" Grid.Column="7" Background="Black"/>
+                    <Label Grid.Row="1" Grid.Column="7" x:Name="lblNameShortA" Content="BOM" Foreground="White" FontFamily="Verdana" FontSize="12" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                    <Image Grid.Row="1" Grid.Column="7" x:Name="imgPowerPlayShortA" Source="style/power_play.png" Height="10" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+                    <!-- Time -->
+                    <Border Grid.Row="0" Grid.Column="10" Grid.RowSpan="3" Grid.ColumnSpan="3" CornerRadius="10,0,10,0" BorderBrush="Black" BorderThickness="1" Background="Red" Margin="0" Padding="0" />
+                    <Label Grid.Row="0" Grid.Column="10" Grid.RowSpan="3" x:Name="lblTimeShortH" Content="88" Foreground="Black" FontFamily="Verdana" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                    <Label Grid.Row="0" Grid.Column="11" Grid.RowSpan="3" x:Name="lblTimeShortDB" Content=":" Foreground="Black" FontFamily="Verdana" FontSize="12" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <Label Grid.Row="0" Grid.Column="12" Grid.RowSpan="3" x:Name="lblTimeShortL" Content="88" Foreground="Black" FontFamily="Verdana" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                </Grid>
+
+            </Grid>
+        </Canvas>
+    </Grid>
+</Window>

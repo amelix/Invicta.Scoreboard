@@ -8,7 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 
-namespace Invicta.Scoreboard.Code
+namespace ObsClassLibrary.Code
 {
     public class CountdownHelper
     {
@@ -20,6 +20,18 @@ namespace Invicta.Scoreboard.Code
         public int Minutes { get; private set; }
         public int Seconds { get; private set; }
         public int Milliseconds { get; private set; }
+
+        private static CountdownHelper _current;
+        public static CountdownHelper Current
+        {
+            get
+            {
+                if (_current == null)
+                    _current = new CountdownHelper();
+
+                return _current;
+            }
+        }
 
         public CountdownHelper()
         {

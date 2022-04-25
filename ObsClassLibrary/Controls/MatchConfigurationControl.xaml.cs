@@ -1,9 +1,10 @@
-﻿using System;
+﻿using ObsClassLibrary.Code;
+using ObsClassLibrary.Code.Match;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,29 +15,26 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using ObsClassLibrary.Code;
-using ObsClassLibrary.Code.Match;
 
-namespace Invicta.Scoreboard
+namespace ObsClassLibrary.Controls
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for MatchConfigurationControl.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MatchConfigurationControl : UserControl
     {
-        RisultatoGrande risultatoGrande;
-        TimerWindow risultatoPiccolo;
-        CountdownHelper cowntdownHelper;
+        CountdownHelper _cowntdownHelper => CountdownHelper.Current;
         FisrMatchGrabber FisrMatch;
 
-        public MainWindow()
+        public event EventHandler<EventArgs> MatchUpdate;
+
+        public MatchConfigurationControl()
         {
             InitializeComponent();
 
-            cowntdownHelper = new CountdownHelper();
-            //cowntdownHelper.Start(10, 0, 0);
-            cowntdownHelper.TimerTick += CowntdownHelper_TimerTick;
-            cowntdownHelper.SetTime(MatchDetail.Current.Minutes,
+            _cowntdownHelper.TimerTick += CowntdownHelper_TimerTick;
+            _cowntdownHelper.SetTime(
+                MatchDetail.Current.Minutes,
                 MatchDetail.Current.Seconds,
                 MatchDetail.Current.Milliseconds);
 
@@ -44,68 +42,63 @@ namespace Invicta.Scoreboard
             txtSeconds.Text = MatchDetail.Current.Seconds.ToString();
             txtMilliseconds.Text = MatchDetail.Current.Milliseconds.ToString();
 
-
-            risultatoPiccolo = new TimerWindow();
-            risultatoPiccolo.CowntdownHelper = cowntdownHelper;
-            risultatoPiccolo.Show();
-
-            risultatoGrande = new RisultatoGrande();
-            risultatoGrande.CowntdownHelper = cowntdownHelper;
-            risultatoGrande.Show();
-
             //btnAlignTeams_Click(btnAlignTeams, new RoutedEventArgs());
-            File.WriteAllText(@"C:\Hockey\Testi\TestoScorrevole.txt", "");
+            //File.WriteAllText(@"C:\Hockey\Testi\TestoScorrevole.txt", "");
 
-            AlignData();
+            AlignData(null);
 
             FisrMatch = new FisrMatchGrabber();
-            FisrMatch.MatchUpdate += FisrMatch_MatchUpdate;
+            FisrMatch.MatchUpdate += (sender, eventArgs) => FisrMatch_MatchUpdate(sender!, eventArgs);
         }
 
-        bool _history = false;
-        DateTime _dateTimeHistory = DateTime.Now.AddDays(-1);
+        //bool _history = false;
+        //DateTime _dateTimeHistory = DateTime.Now.AddDays(-1);
         List<EventDetail> _eventDetailListHistory = new List<EventDetail>();
 
-        private void FisrMatch_MatchUpdate(object sender, EventArgs ea)
+        private void FisrMatch_MatchUpdate(object sender, EventArgs eventArgs)
         {
             if (string.IsNullOrWhiteSpace(txtMatchId.Text) && FisrMatch.Id.HasValue)
                 txtMatchId.Text = FisrMatch.Id.Value.ToString();
 
             var eventDetailList = (List<EventDetail>)sender;
-            if (!_history && eventDetailList.Count != _eventDetailListHistory.Count)
-            {
-                try
-                {
-                    var text = $"{MatchDetail.Current.Teams[eventDetailList[0].TeamCode.ToUpper()].Name} - {eventDetailList[0]}";
-                    text = text.Replace('\n', ' ');
+            //if (!_history && eventDetailList.Count != _eventDetailListHistory.Count)
+            //{
+            //    try
+            //    {
+            //        var text = $"{MatchDetail.Current.Teams[eventDetailList[0].TeamCode.ToUpper()].Name} - {eventDetailList[0]}";
+            //        text = text.Replace('\n', ' ');
 
-                    File.WriteAllText(@"C:\Hockey\Testi\TestoScorrevole.txt", text.PadLeft(100 - text.Length, ' '));
-                    _dateTimeHistory = DateTime.Now.AddSeconds(20);
-                    _history = true;
-                    _eventDetailListHistory = eventDetailList;
-                }
-                catch { }
-            }
+            //        File.WriteAllText(@"C:\Hockey\Testi\TestoScorrevole.txt", text.PadLeft(100 - text.Length, ' '));
+            //        _dateTimeHistory = DateTime.Now.AddSeconds(20);
+            //        _history = true;
+            //        _eventDetailListHistory = eventDetailList;
+            //    }
+            //    catch { }
+            //}
 
-            var homeEvents = eventDetailList.Where(m => string.Compare(m.TeamCode, txtHomeShort.Text, true) == 0).ToList();
-            var awayEvents = eventDetailList.Where(m => string.Compare(m.TeamCode, txtAwayShort.Text, true) == 0).ToList();
+            var homeEvents = eventDetailList
+                .Where(m => string.Compare(m.TeamCode, txtHomeShort.Text, true) == 0)
+                .ToList();
+            var awayEvents = eventDetailList
+                .Where(m => string.Compare(m.TeamCode, txtAwayShort.Text, true) == 0)
+                .ToList();
 
             if (homeEvents.Count > 0)
             {
                 int gol = 0;
-                var s = new StringBuilder();
+                var stringBuilder = new StringBuilder();
                 foreach (var ev in homeEvents.OrderByDescending(e => e.Tempo).ThenBy(e => e.Minuto))
                 {
                     if (ev.EventType == EventDetail.EventTypes.Gol)
                         gol++;
 
-                    s.AppendLine(ev.ToString());
+                    stringBuilder.AppendLine(ev.ToString());
                 }
 
                 if (MatchDetail.Current.Home.Score < gol)
                     MatchDetail.Current.Home.Score = gol;
 
-                MatchDetail.Current.Home.History = s.ToString();
+                MatchDetail.Current.Home.History = stringBuilder.ToString();
             }
 
             if (awayEvents.Count > 0)
@@ -129,7 +122,7 @@ namespace Invicta.Scoreboard
                 MatchDetail.Current.Away.History = stringBuilder.ToString();
             }
 
-            AlignData();
+            AlignData(eventDetailList);
         }
 
         private void CowntdownHelper_TimerTick(object sender, CowntdownHelperEventArgs e)
@@ -137,11 +130,11 @@ namespace Invicta.Scoreboard
             if (string.IsNullOrWhiteSpace(txtMatchId.Text) && FisrMatch.Id.HasValue)
                 txtMatchId.Text = FisrMatch.Id.Value.ToString();
 
-            if (_history && _dateTimeHistory < DateTime.Now)
-            {
-                _history = false;
-                File.WriteAllText(@"C:\Hockey\Testi\TestoScorrevole.txt", "");
-            }
+            //if (_history && _dateTimeHistory < DateTime.Now)
+            //{
+            //    _history = false;
+            //    File.WriteAllText(@"C:\Hockey\Testi\TestoScorrevole.txt", "");
+            //}
             // Uses the Keyboard.GetKeyStates to determine if a key is down.
             // A bitwise AND operation is used in the comparison.
             // e is an instance of KeyEventArgs.
@@ -200,26 +193,16 @@ namespace Invicta.Scoreboard
         {
             Pause();
         }
-        //MessageBox.Show("Prova");
-        //for (var i = 0; i < 10; i++)
-        //{
-        //    BitmapImage image = new BitmapImage();
-        //    image.BeginInit();
-        //    image.UriSource = new Uri($"pack://application:,,,/Style/Verdana/{i}.png");
-        //    image.EndInit();
 
-        //    imgHH2.Source = image; //Image.from ImageSource.( $"Style\\Verdana\\{i}.png";
-        //    Thread.Sleep(1000);
-        //}
         private void Pause()
         {
-            if (cowntdownHelper.Running)
+            if (_cowntdownHelper.Running)
             {
-                cowntdownHelper.Stop();
+                _cowntdownHelper.Stop();
             }
             else
             {
-                cowntdownHelper.Start(cowntdownHelper.Minutes, cowntdownHelper.Seconds, cowntdownHelper.Milliseconds);
+                _cowntdownHelper.Start(_cowntdownHelper.Minutes, _cowntdownHelper.Seconds, _cowntdownHelper.Milliseconds);
             }
 
             MatchDetail.Current.Minutes = Convert.ToInt32(txtMinutes.Text);
@@ -238,18 +221,18 @@ namespace Invicta.Scoreboard
 
         private void btnAlign_Click(object sender, RoutedEventArgs e)
         {
-            if (!cowntdownHelper.Running)
+            if (!_cowntdownHelper.Running)
             {
-                cowntdownHelper.Start(
+                _cowntdownHelper.Start(
                     Convert.ToInt32(txtMinutes.Text),
                     Convert.ToInt32(txtSeconds.Text),
                     Convert.ToInt32(txtMilliseconds.Text));
 
-                cowntdownHelper.Stop();
+                _cowntdownHelper.Stop();
             }
             else
             {
-                cowntdownHelper.Start(
+                _cowntdownHelper.Start(
                     Convert.ToInt32(txtMinutes.Text),
                     Convert.ToInt32(txtSeconds.Text),
                     Convert.ToInt32(txtMilliseconds.Text));
@@ -269,7 +252,7 @@ namespace Invicta.Scoreboard
                 FisrMatch.Id = MatchDetail.Current.MatchId;
             }
 
-            AlignData();
+            AlignData(null);
 
             MatchDetail.Current.Save();
 
@@ -286,6 +269,8 @@ namespace Invicta.Scoreboard
             MatchDetail.Current.Home.Score = Convert.ToInt32(txtHomeScore.Text);
             MatchDetail.Current.Home.PowerPlay = chkHomePowerPlay.IsChecked.Value;
             MatchDetail.Current.Home.History = txtHomeDesc.Text;
+            MatchDetail.Current.Home.LogoTeamUrl = FisrMatch.HomeTeamUrl;
+
 
             MatchDetail.Current.Teams[txtAwayShort.Text] = MatchDetail.Current.Away;
             MatchDetail.Current.Away.NameShort = txtAwayShort.Text;
@@ -293,6 +278,7 @@ namespace Invicta.Scoreboard
             MatchDetail.Current.Away.Score = Convert.ToInt32(txtAwayScore.Text);
             MatchDetail.Current.Away.PowerPlay = chkAwayPowerPlay.IsChecked.Value;
             MatchDetail.Current.Away.History = txtAwayDesc.Text;
+            MatchDetail.Current.Away.LogoTeamUrl = FisrMatch.AwayTeamUrl;
 
             MatchDetail.Current.Minutes = Convert.ToInt32(txtMinutes.Text);
             MatchDetail.Current.Seconds = Convert.ToInt32(txtSeconds.Text);
@@ -309,15 +295,41 @@ namespace Invicta.Scoreboard
                 FisrMatch.Id = MatchDetail.Current.MatchId;
             }
 
-            AlignData();
+            AlignData(null);
 
             MatchDetail.Current.Save();
 
             FisrMatch.HomeTeamCode = MatchDetail.Current.Home.NameShort;
             FisrMatch.AwayTeamCode = MatchDetail.Current.Away.NameShort;
+
+            FisrMatch.Reset();
+
+            if (!string.IsNullOrWhiteSpace(MatchDetail.Current.Home.LogoTeamUrl))
+            {
+                BitmapImage bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.UriSource = new Uri(MatchDetail.Current.Home.LogoTeamUrl, UriKind.Absolute);
+                bitmap.DecodePixelHeight = 40;
+                bitmap.DecodePixelWidth = 40;
+                bitmap.EndInit();
+
+                imgHomeUrl.Source = bitmap;
+            }
+
+            if (!string.IsNullOrWhiteSpace(MatchDetail.Current.Away.LogoTeamUrl))
+            {
+                BitmapImage bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.UriSource = new Uri(MatchDetail.Current.Away.LogoTeamUrl, UriKind.Absolute);
+                bitmap.DecodePixelHeight = 40;
+                bitmap.DecodePixelWidth = 40;
+                bitmap.EndInit();
+
+                imgAwayUrl.Source = bitmap;
+            }
         }
 
-        private void AlignData()
+        private void AlignData(List<EventDetail> eventDetailList)
         {
             txtHomeShort.Text = MatchDetail.Current.Home.NameShort;
             txtHomeLong.Text = MatchDetail.Current.Home.Name;
@@ -331,63 +343,40 @@ namespace Invicta.Scoreboard
             chkAwayPowerPlay.IsChecked = MatchDetail.Current.Away.PowerPlay;
             txtAwayDesc.Text = MatchDetail.Current.Away.History;
 
-            risultatoGrande.HomeName = MatchDetail.Current.Home.Name;
-            risultatoGrande.HomeScore = MatchDetail.Current.Home.Score;
-            risultatoGrande.HomePowerPlay = MatchDetail.Current.Home.PowerPlay;
-            risultatoGrande.HomeDesc = MatchDetail.Current.Home.History;
-
-            risultatoGrande.AwayName = MatchDetail.Current.Away.Name;
-            risultatoGrande.AwayScore = MatchDetail.Current.Away.Score;
-            risultatoGrande.AwayPowerPlay = MatchDetail.Current.Away.PowerPlay;
-            risultatoGrande.AwayDesc = MatchDetail.Current.Away.History;
-
-            risultatoPiccolo.HomeName = MatchDetail.Current.Home.NameShort;
-            risultatoPiccolo.HomeScore = MatchDetail.Current.Home.Score;
-            risultatoPiccolo.HomePowerPlay = MatchDetail.Current.Home.PowerPlay;
-
-            risultatoPiccolo.AwayName = MatchDetail.Current.Away.NameShort;
-            risultatoPiccolo.AwayScore = MatchDetail.Current.Away.Score;
-            risultatoPiccolo.AwayPowerPlay = MatchDetail.Current.Away.PowerPlay;
-
             if (FisrMatch != null && FisrMatch.Id.HasValue)
                 txtMatchId.Text = FisrMatch.Id.ToString();
             else
                 txtMatchId.Text = "";
+
+            MatchUpdate?.Invoke(eventDetailList, null);
         }
 
         private void btnUp_Click(object sender, RoutedEventArgs e)
         {
-            cowntdownHelper.AddSeconds(1);
+            _cowntdownHelper.AddSeconds(1);
         }
 
         private void btnDown_Click(object sender, RoutedEventArgs e)
         {
-            cowntdownHelper.AddSeconds(-1);
+            _cowntdownHelper.AddSeconds(-1);
         }
 
         private void txtMatchId_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            _cowntdownHelper.Stop();
+            _cowntdownHelper.SetTime(20, 0, 0);
+
             txtMatchId.Text = null;
             FisrMatch.Id = null;
-        }
 
-        /// <summary>Brings main window to foreground.</summary>
-        public void BringToForeground()
-        {
-            if (this.WindowState == WindowState.Minimized || this.Visibility == Visibility.Hidden)
-            {
-                this.Show();
-                this.WindowState = WindowState.Normal;
-            }
+            txtHomeScore.Text = "0";
+            txtHomeDesc.Text = "";
+            txtAwayScore.Text = "0";
+            txtAwayDesc.Text = "";
 
-            // According to some sources these steps gurantee that an app will be brought to foreground.
-            this.Activate();
-            this.Topmost = true;
-            this.Topmost = false;
-            this.Focus();
-
-            risultatoPiccolo.Show();
-            risultatoGrande.Show();
+            txtMinutes.Text = "20";
+            txtSeconds.Text = "0";
+            txtMilliseconds.Text = "0";
         }
     }
 }

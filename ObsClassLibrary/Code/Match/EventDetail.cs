@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Invicta.Scoreboard.Code.Match
+namespace ObsClassLibrary.Code.Match
 {
     public class EventDetail
     {

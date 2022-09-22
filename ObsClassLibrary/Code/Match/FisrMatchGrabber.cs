@@ -20,8 +20,12 @@ namespace ObsClassLibrary.Code.Match
 
         private DispatcherTimer _timer;
         public int? Id { get; set; }
+
         public string HomeTeamCode { get; set; }
+        public string HomeTeamName { get; set; }
         public string AwayTeamCode { get; set; }
+        public string AwayTeamName { get; set; }
+
 
         public string HomeTeamUrl { get; set; }
         public string AwayTeamUrl { get; set; }
@@ -123,6 +127,7 @@ namespace ObsClassLibrary.Code.Match
 
         private async Task<string> GetPageAsync()
         {
+            bool notify = false;
             if (!Id.HasValue)
             {
                 _ = GetMatchId();
@@ -140,6 +145,34 @@ namespace ObsClassLibrary.Code.Match
             {
                 response.EnsureSuccessStatusCode();
                 var body = await response.Content.ReadAsStringAsync();
+                #region Nome Squadra Home
+                {
+                    var tmp = body;
+                    const string tagI = "<div class=\"nombre1\">";
+                    const string tagF = "</div>";
+                    var n = GetTagValue(ref tmp, tagI, tagF);
+                    if (n != HomeTeamName)
+                    {
+                        notify = true;
+                        HomeTeamName = n;
+                    }
+                }
+                #endregion
+                #region Nome Squadra Away
+                {
+                    var tmp = body;
+                    const string tagI = "<div class=\"nombre2\">";
+                    const string tagF = "</div>";
+                    var n = GetTagValue(ref tmp, tagI, tagF);
+                    if (n != AwayTeamName)
+                    {
+                        notify = true;
+                        AwayTeamName = n;
+                    }
+                }
+                #endregion
+                // <div class="nombre1">FERRARA WARRIORS</div>
+                // <div class="nombre2">HC MILANO </div>
                 Console.WriteLine(body);
 
                 var i = body.IndexOf("tabla_standard");
@@ -311,7 +344,7 @@ namespace ObsClassLibrary.Code.Match
                     }
                 }
 
-                if (!_events.HasValue || _events != details.Count)
+                if (notify || !_events.HasValue || _events != details.Count)
                 {
                     _events = details.Count;
                     //System.IO.File.WriteAllText(@"C:\Temp\testClean.txt", rows);

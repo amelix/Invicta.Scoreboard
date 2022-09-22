@@ -75,6 +75,8 @@ namespace ObsClassLibrary.Controls
             //    }
             //    catch { }
             //}
+            MatchDetail.Current.Home.Name = FisrMatch.HomeTeamName;
+            MatchDetail.Current.Away.Name = FisrMatch.AwayTeamName;
 
             var homeEvents = eventDetailList
                 .Where(m => string.Compare(m.TeamCode, txtHomeShort.Text, true) == 0)

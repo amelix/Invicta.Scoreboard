@@ -199,6 +199,7 @@ namespace ObsScoreHelper
                 {
                     var text = $"{MatchDetail.Current.Teams[eventDetailList[0].TeamCode.ToUpper()].Name} - {eventDetailList[0]}";
                     text = text.Replace('\n', ' ');
+                    text = text.Replace('\t', ' ');
                     text = text.Replace("     ", " ");
 
                     _eventDetailListHistory = eventDetailList;
